@@ -313,6 +313,18 @@
       color: var(--text-light);
       font-size: 0.875rem;
     }
+
+    /* ── Equalizer Animation ── */
+    .eq-bar {
+      width: 3px;
+      background-color: #10b981;
+      border-radius: 2px;
+      animation: eq 1s ease-in-out infinite alternate;
+    }
+    @keyframes eq {
+      0% { height: 4px; }
+      100% { height: 16px; }
+    }
   </style>
 </head>
 <body>
@@ -413,15 +425,30 @@
       <h2 class="section-header">Beyond the Code</h2>
       <section class="grid-2">
         
-        <!-- Listening (Spotify Integration) -->
-        <div class="card hobby-card" style="padding: 1.5rem; flex-direction: column; align-items: flex-start; gap: 0.5rem;">
-          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+        <!-- Listening (Static Now Playing) -->
+        <div class="card hobby-card" style="padding: 1.5rem; flex-direction: column; align-items: flex-start; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
             <div class="hobby-icon" style="width: 32px; height: 32px; border-radius: 8px;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="17.5" r="2.5"></circle><circle cx="17.5" cy="15.5" r="2.5"></circle><path d="M8 17V5l12-2v12"></path></svg>
             </div>
             <div class="hobby-title" style="margin: 0;">Currently Listening To</div>
           </div>
-          <iframe style="border-radius:12px; width: 100%;" src="https://open.spotify.com/embed/track/2F61Q481c4Kx32j7v1vT2N?utm_source=generator&theme=0" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          
+          <div style="display: flex; align-items: center; gap: 1rem; background: var(--bg-alt); padding: 1rem; border-radius: 12px; width: 100%; border: 1px solid var(--border);">
+            <div style="width: 48px; height: 48px; background: #111827; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+            </div>
+            <div style="flex-grow: 1;">
+              <div style="font-weight: 600; font-size: 0.95rem; color: var(--text-main); margin-bottom: 0.15rem;">Slow Dancing in a Burning Room</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">John Mayer</div>
+            </div>
+            <div style="display: flex; gap: 3px; align-items: flex-end; height: 16px;">
+              <div class="eq-bar" style="animation-delay: 0.1s;"></div>
+              <div class="eq-bar" style="animation-delay: 0.3s; height: 12px;"></div>
+              <div class="eq-bar" style="animation-delay: 0.0s; height: 16px;"></div>
+              <div class="eq-bar" style="animation-delay: 0.4s; height: 8px;"></div>
+            </div>
+          </div>
         </div>
 
         <!-- Stack of two small cards -->
