@@ -3,252 +3,221 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Achintya Rai — AI Engineer</title>
+  <title>Achintya Rai</title>
   <meta name="description" content="Portfolio of Achintya Rai, Data Scientist & AI Engineer." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
     /* ── Reset & Base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     
     :root {
-      --bg: #030712;
-      --card-bg: rgba(17, 24, 39, 0.6);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --card-hover: rgba(31, 41, 55, 0.7);
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
-      --accent: #38bdf8;
-      --accent-glow: rgba(56, 189, 248, 0.4);
-      --font-sans: 'Outfit', system-ui, sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
+      /* Shared Colors */
+      --bg: #ffffff;
+      --bg-alt: #fafafa;
+      --text-main: #111827;
+      --text-muted: #4b5563;
+      --text-light: #9ca3af;
+      --border: #e5e7eb;
+      --border-hover: #d1d5db;
+      --radius: 16px;
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+      
+      /* Mode-Specific Variables (Default: Professional) */
+      --accent: #2563eb;
+      --accent-light: #eff6ff;
+    }
+
+    [data-mode="personal"] {
+      --accent: #f97316;
+      --accent-light: #fff7ed;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background-color: var(--bg);
+      background: var(--bg);
       color: var(--text-main);
       font-family: var(--font-sans);
       font-size: 16px;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      min-height: 100vh;
+      transition: background-color 0.4s ease;
       overflow-x: hidden;
-      position: relative;
-    }
-
-    /* ── Animated Background Mesh ── */
-    .bg-mesh {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      z-index: -1;
-      overflow: hidden;
-      background: #030712;
-    }
-
-    .bg-mesh::before, .bg-mesh::after {
-      content: '';
-      position: absolute;
-      width: 60vw;
-      height: 60vw;
-      border-radius: 50%;
-      filter: blur(90px);
-      opacity: 0.15;
-      animation: drift 20s infinite alternate ease-in-out;
-    }
-
-    .bg-mesh::before {
-      background: #3b82f6;
-      top: -10%; left: -10%;
-    }
-
-    .bg-mesh::after {
-      background: #8b5cf6;
-      bottom: -10%; right: -10%;
-      animation-delay: -10s;
-    }
-
-    @keyframes drift {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(10%, 10%) scale(1.1); }
     }
 
     a {
       color: inherit;
       text-decoration: none;
+      transition: color 0.2s ease;
     }
 
     /* ── Layout ── */
     .container {
-      max-width: 1000px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 4rem 1.5rem;
+      padding: 0 1.5rem;
     }
 
-    /* ── Bento Grid ── */
-    .bento-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-auto-rows: minmax(180px, auto);
-      gap: 1.25rem;
-    }
-
-    /* ── Bento Cards (Glassmorphism) ── */
-    .bento-card {
-      background: var(--card-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--card-border);
-      border-radius: 24px;
-      padding: 2rem;
+    /* ── Navigation & Toggle ── */
+    nav {
+      padding: 2rem 0;
       display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s, border-color 0.3s;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4rem;
     }
-
-    .bento-card::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      border-radius: 24px;
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-    }
-
-    .bento-card:hover {
-      transform: translateY(-4px);
-      background: var(--card-hover);
-      border-color: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
-    }
-
-    /* ── Specific Spans ── */
-    .span-4 { grid-column: span 4; }
-    .span-2 { grid-column: span 2; }
-    .span-3 { grid-column: span 3; }
-    .span-1 { grid-column: span 1; }
-
-    /* ── Card Contents ── */
-    .card-title {
+    
+    .nav-brand {
+      font-weight: 700;
       font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
       letter-spacing: -0.02em;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
     }
 
-    .card-text {
+    .nav-brand span {
+      color: var(--accent);
+      transition: color 0.4s ease;
+    }
+
+    /* The Switch */
+    .mode-switch {
+      display: inline-flex;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 4px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .mode-btn {
+      position: relative;
+      z-index: 2;
+      background: none;
+      border: none;
+      padding: 8px 16px;
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      font-weight: 500;
       color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.6;
+      cursor: pointer;
+      transition: color 0.3s;
     }
 
-    /* ── Hero Card ── */
-    .hero-card {
-      justify-content: center;
+    .mode-btn.active {
+      color: var(--text-main);
     }
 
-    .avatar-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      margin-bottom: 1.5rem;
+    .switch-pill {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      height: calc(100% - 8px);
+      width: calc(50% - 4px);
+      background: var(--surface, #ffffff);
+      border-radius: 100px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1;
+    }
+
+    [data-mode="personal"] .switch-pill {
+      transform: translateX(100%);
+    }
+
+    /* ── Content Transition Logic ── */
+    .view-content {
+      display: none;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .view-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Common Components ── */
+    .section-header {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
     }
 
     .avatar {
-      width: 72px;
-      height: 72px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid rgba(255,255,255,0.1);
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
 
-    .hero-badge {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--accent);
-      background: rgba(56, 189, 248, 0.1);
-      padding: 0.35rem 0.75rem;
-      border-radius: 100px;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
+    .card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
     }
 
-    .hero-title {
-      font-size: clamp(2rem, 4vw, 2.75rem);
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+      border-color: var(--border-hover);
+    }
+
+    /* ── Hero Sections ── */
+    .hero { margin-bottom: 6rem; }
+    
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
       font-weight: 700;
       line-height: 1.1;
       letter-spacing: -0.03em;
       margin-bottom: 1rem;
     }
 
-    /* Typing effect */
-    .typing {
-      display: inline-block;
-      overflow: hidden;
-      white-space: nowrap;
-      border-right: 2px solid var(--accent);
-      animation: typing 3s steps(30, end), blink-caret .75s step-end infinite;
-    }
-
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-    @keyframes blink-caret {
-      from, to { border-color: transparent }
-      50% { border-color: var(--accent) }
-    }
-
-    /* ── Small Cards (Location/Status) ── */
-    .mini-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-    
-    .mini-card svg {
-      width: 32px;
-      height: 32px;
-      margin-bottom: 1rem;
+    .hero p {
+      font-size: 1.25rem;
       color: var(--text-muted);
-      opacity: 0.8;
+      max-width: 600px;
+      line-height: 1.6;
     }
 
-    .pulse-dot {
-      width: 10px; height: 10px;
-      background-color: #10b981;
-      border-radius: 50%;
-      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-      animation: pulse 2s infinite;
-      margin-bottom: 1rem;
+    .accent-bg {
+      background: var(--accent-light);
+      color: var(--accent);
+      padding: 0.25rem 0.75rem;
+      border-radius: 100px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      transition: background 0.4s, color 0.4s;
     }
 
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    /* ── Grid Layouts ── */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 6rem;
     }
 
-    /* ── Project Cards ── */
-    .project-card {
-      justify-content: space-between;
+    @media (min-width: 768px) {
+      .grid-2 { grid-template-columns: repeat(2, 1fr); }
     }
 
+    /* ── Professional Projects ── */
     .project-header {
       display: flex;
       justify-content: space-between;
@@ -256,266 +225,330 @@
       margin-bottom: 1rem;
     }
 
+    .project-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
     .project-icon {
-      width: 40px; height: 40px;
-      background: rgba(255,255,255,0.05);
+      width: 48px; height: 48px;
+      background: var(--bg-alt);
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #fff;
+      color: var(--accent);
     }
 
-    .project-tech {
+    .project-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tech-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
     }
 
-    .tech-pill {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 0.25rem 0.6rem;
-      border-radius: 100px;
+    .tech-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
       color: var(--text-muted);
+      background: var(--bg-alt);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
     }
 
     .project-links {
-      margin-top: 1.5rem;
       display: flex;
       gap: 1rem;
-    }
-
-    .project-links a {
-      font-size: 0.875rem;
       font-weight: 500;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: color 0.2s;
-    }
-
-    .project-links a:hover { color: var(--accent); }
-
-    /* ── Skills Marquee ── */
-    .skills-card {
-      justify-content: center;
-      padding: 1.5rem;
-    }
-    
-    .skills-grid-inner {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .skill-tag {
       font-size: 0.875rem;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      transition: background 0.2s;
     }
 
-    .skill-tag:hover {
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-    }
+    .project-links a.primary { color: var(--accent); }
+    .project-links a.secondary { color: var(--text-muted); }
+    .project-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
 
-    /* ── Social / Contact ── */
-    .social-links {
+    /* ── Personal Cards ── */
+    .hobby-card {
       display: flex;
+      align-items: center;
       gap: 1rem;
-      margin-top: auto;
     }
 
-    .social-btn {
-      width: 44px; height: 44px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.05);
+    .hobby-icon {
+      width: 56px; height: 56px;
+      background: var(--accent-light);
+      color: var(--accent);
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--text-main);
-      transition: all 0.2s;
+      flex-shrink: 0;
     }
 
-    .social-btn:hover {
-      background: var(--text-main);
-      color: var(--bg);
+    .hobby-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .hobby-value {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    /* ── Contact ── */
+    .contact-banner {
+      background: var(--accent-light);
+      border-radius: var(--radius);
+      padding: 3rem;
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .contact-banner h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+
+    .contact-banner p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-contact {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.75rem 2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      display: inline-block;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .btn-contact:hover {
+      opacity: 0.9;
       transform: translateY(-2px);
     }
 
-    /* ── Animations ── */
-    .fade-up {
-      opacity: 0;
-      animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-light);
+      font-size: 0.875rem;
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Staggered delays */
-    .d-1 { animation-delay: 0.1s; }
-    .d-2 { animation-delay: 0.2s; }
-    .d-3 { animation-delay: 0.3s; }
-    .d-4 { animation-delay: 0.4s; }
-
-    /* ── Responsive ── */
-    @media (max-width: 900px) {
-      .bento-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .span-4, .span-3, .span-2 { grid-column: span 2; }
-      .span-1 { grid-column: span 1; }
-    }
-
-    @media (max-width: 600px) {
-      .bento-grid {
-        grid-template-columns: 1fr;
-      }
-      .span-4, .span-3, .span-2, .span-1 { grid-column: span 1; }
-      .hero-title { font-size: 2.25rem; }
-    }
+    .socials { display: flex; gap: 1rem; }
+    .socials a:hover { color: var(--accent); }
   </style>
 </head>
-<body>
-
-  <!-- Dynamic Animated Background -->
-  <div class="bg-mesh"></div>
+<body data-mode="professional">
 
   <div class="container">
-    <div class="bento-grid">
+    
+    <!-- Navigation -->
+    <nav>
+      <div class="nav-brand">Achintya<span>.</span></div>
       
-      <!-- 1. Hero Bio (Span 2) -->
-      <div class="bento-card hero-card span-2 fade-up d-1">
-        <div class="avatar-wrapper">
-          <img src="https://github.com/raiyashu2004.png" alt="Achintya Rai" class="avatar" />
-          <div class="hero-badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            Data Scientist & AI Engineer
+      <!-- The Mode Switcher -->
+      <div class="mode-switch" id="modeToggle">
+        <div class="switch-pill"></div>
+        <button class="mode-btn active" data-target="professional">Professional</button>
+        <button class="mode-btn" data-target="personal">Personal</button>
+      </div>
+    </nav>
+
+    <!-- ==============================================
+         VIEW 1: PROFESSIONAL
+         ============================================== -->
+    <div id="professional-content" class="view-content active">
+      
+      <section class="hero">
+        <img src="https://github.com/raiyashu2004.png" alt="Achintya Rai" class="avatar" />
+        <br/>
+        <div class="accent-bg">Data Scientist & AI Engineer</div>
+        <h1>Building intelligent systems that matter.</h1>
+        <p>I'm a CSE student specializing in building production-ready AI tools, RAG pipelines, and data analytics platforms that solve real-world problems.</p>
+      </section>
+
+      <h2 class="section-header">Featured Work</h2>
+      <section class="grid-2">
+        <!-- STRATEGOS -->
+        <div class="card">
+          <div class="project-header">
+            <h3 class="project-title">STRATEGOS</h3>
+            <div class="project-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            </div>
+          </div>
+          <p class="project-desc">A full-stack autonomous data analyst agent. It ingests datasets, reasons via a ReAct loop, and executes Python code in a secure sandbox.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">Spring Boot</span>
+            <span class="tech-tag">LangChain</span>
+          </div>
+          <div class="project-links">
+            <a href="https://strategos-data.vercel.app" target="_blank" class="primary">Live Demo</a>
+            <a href="https://github.com/raiyashu2004/data-analyst-agent" target="_blank" class="secondary">GitHub</a>
           </div>
         </div>
-        <h1 class="hero-title">
-          Hi, I'm Achintya. <br/>
-          <span style="color: var(--text-muted); font-weight: 400; font-size: clamp(1.2rem, 2vw, 1.5rem);">I build <span class="typing">intelligent systems.</span></span>
-        </h1>
-        <p class="card-text">
-          Currently a 3rd-year CSE student bridging the gap between complex ML models and elegant software interfaces. Passionate about RAG pipelines and Data Analytics.
-        </p>
-      </div>
 
-      <!-- 2. Location (Span 1) -->
-      <div class="bento-card mini-card span-1 fade-up d-2">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-        <h3 class="card-title" style="margin:0; font-size:1rem;">Based In</h3>
-        <p class="card-text">India</p>
-      </div>
-
-      <!-- 3. Status (Span 1) -->
-      <div class="bento-card mini-card span-1 fade-up d-3">
-        <div class="pulse-dot"></div>
-        <h3 class="card-title" style="margin:0; font-size:1rem;">Available For</h3>
-        <p class="card-text">Internships & Research</p>
-      </div>
-
-      <!-- 4. Project: STRATEGOS (Span 2) -->
-      <div class="bento-card project-card span-2 fade-up d-2">
-        <div class="project-header">
-          <div class="project-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        <!-- JurisAI -->
+        <div class="card">
+          <div class="project-header">
+            <h3 class="project-title">JurisAI</h3>
+            <div class="project-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            </div>
+          </div>
+          <p class="project-desc">A specialized Legal AI chatbot designed for the Indian judicial system. It uses RAG pipelines to retrieve case laws and legal precedents.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">pgvector</span>
+            <span class="tech-tag">LLMs</span>
+            <span class="tech-tag">NLP</span>
+          </div>
+          <div class="project-links">
+            <a href="https://botjuris-six.vercel.app" target="_blank" class="primary">Live Demo</a>
+            <a href="https://github.com/raiyashu2004/Juris" target="_blank" class="secondary">GitHub</a>
           </div>
         </div>
-        <h3 class="card-title">STRATEGOS</h3>
-        <p class="card-text">
-          A full-stack autonomous data analyst. Ingests datasets, independently reasons via a ReAct loop, executes Pandas code in a secure sandbox, and streams visual reports.
-        </p>
-        <div class="project-tech">
-          <span class="tech-pill">React</span>
-          <span class="tech-pill">FastAPI</span>
-          <span class="tech-pill">Spring Boot</span>
-          <span class="tech-pill">LangChain</span>
-        </div>
-        <div class="project-links">
-          <a href="https://strategos-data.vercel.app" target="_blank">
-            Live Demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
-          </a>
-          <a href="https://github.com/raiyashu2004/data-analyst-agent" target="_blank" style="color:var(--text-muted)">
-            GitHub <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-          </a>
-        </div>
-      </div>
+      </section>
 
-      <!-- 5. Project: JurisAI (Span 2) -->
-      <div class="bento-card project-card span-2 fade-up d-3">
-        <div class="project-header">
-          <div class="project-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-          </div>
-        </div>
-        <h3 class="card-title">JurisAI</h3>
-        <p class="card-text">
-          A Legal AI chatbot for the Indian judicial system. Uses RAG pipelines and vector databases to retrieve case laws and precedents to assist legal professionals.
-        </p>
-        <div class="project-tech">
-          <span class="tech-pill">Python</span>
-          <span class="tech-pill">pgvector</span>
-          <span class="tech-pill">LLMs</span>
-          <span class="tech-pill">NLP</span>
-        </div>
-        <div class="project-links">
-          <a href="https://botjuris-six.vercel.app" target="_blank">
-            Live Demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
-          </a>
-          <a href="https://github.com/raiyashu2004/Juris" target="_blank" style="color:var(--text-muted)">
-            GitHub <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- 6. Tech Stack (Span 2) -->
-      <div class="bento-card skills-card span-2 fade-up d-4">
-        <h3 class="card-title">Tech Stack</h3>
-        <div class="skills-grid-inner" style="margin-top:1rem;">
-          <span class="skill-tag">Python</span>
-          <span class="skill-tag">FastAPI</span>
-          <span class="skill-tag">React</span>
-          <span class="skill-tag">Spring Boot</span>
-          <span class="skill-tag">PostgreSQL</span>
-          <span class="skill-tag">Docker</span>
-          <span class="skill-tag">NLP & LLMs</span>
-          <span class="skill-tag">RAG</span>
-        </div>
-      </div>
-
-      <!-- 7. Connect (Span 2) -->
-      <div class="bento-card span-2 fade-up d-4">
-        <h3 class="card-title">Let's Connect</h3>
-        <p class="card-text">
-          Drop me an email to discuss internships, NLP research, or exciting software projects.
-        </p>
-        <div class="social-links">
-          <a href="mailto:raiachintya984@gmail.com" class="social-btn" aria-label="Email">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-          </a>
-          <a href="https://github.com/raiyashu2004" target="_blank" rel="noopener" class="social-btn" aria-label="GitHub">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-          </a>
-          <a href="https://linkedin.com/in/achintya-rai-2293b6401/" target="_blank" rel="noopener" class="social-btn" aria-label="LinkedIn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-          </a>
-        </div>
+      <div class="contact-banner">
+        <h2>Let's build together.</h2>
+        <p>I'm currently open for software engineering internships and NLP research collaborations.</p>
+        <a href="mailto:raiachintya984@gmail.com" class="btn-contact">Get In Touch</a>
       </div>
 
     </div>
+
+    <!-- ==============================================
+         VIEW 2: PERSONAL
+         ============================================== -->
+    <div id="personal-content" class="view-content">
+      
+      <section class="hero">
+        <img src="https://github.com/raiyashu2004.png" alt="Achintya Rai" class="avatar" />
+        <br/>
+        <div class="accent-bg">The human behind the code</div>
+        <h1>Curious, creative, and constantly learning.</h1>
+        <p>When I'm not writing Python scripts or training models, I'm exploring new ideas, listening to great music, and reading about system design.</p>
+      </section>
+
+      <h2 class="section-header">Current Fixations</h2>
+      <section class="grid-2">
+        <!-- Reading -->
+        <div class="card hobby-card">
+          <div class="hobby-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+          </div>
+          <div>
+            <div class="hobby-title">Currently Reading</div>
+            <div class="hobby-value">Designing Data-Intensive Apps</div>
+          </div>
+        </div>
+
+        <!-- Listening -->
+        <div class="card hobby-card">
+          <div class="hobby-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="17.5" r="2.5"></circle><circle cx="17.5" cy="15.5" r="2.5"></circle><path d="M8 17V5l12-2v12"></path></svg>
+          </div>
+          <div>
+            <div class="hobby-title">On Repeat</div>
+            <div class="hobby-value">Lo-Fi & Synthwave</div>
+          </div>
+        </div>
+
+        <!-- Exploring -->
+        <div class="card hobby-card">
+          <div class="hobby-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+          </div>
+          <div>
+            <div class="hobby-title">Currently Exploring</div>
+            <div class="hobby-value">Novel NLP Evaluation Metrics</div>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="card hobby-card">
+          <div class="hobby-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          </div>
+          <div>
+            <div class="hobby-title">Based In</div>
+            <div class="hobby-value">India</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="contact-banner">
+        <h2>Want to chat?</h2>
+        <p>I love talking about tech, design, books, or random cool ideas. Say hello!</p>
+        <a href="mailto:raiachintya984@gmail.com" class="btn-contact">Say Hello</a>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div>© 2025 Achintya Rai.</div>
+      <div class="socials">
+        <a href="https://github.com/raiyashu2004" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        </a>
+        <a href="https://linkedin.com/in/achintya-rai-2293b6401/" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+        </a>
+      </div>
+    </footer>
+
   </div>
+
+  <script>
+    // Mode Switching Logic
+    const toggleButtons = document.querySelectorAll('.mode-btn');
+    const professionalContent = document.getElementById('professional-content');
+    const personalContent = document.getElementById('personal-content');
+
+    toggleButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active button state
+        toggleButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Set mode attribute on body to trigger CSS variable changes and toggle pill animation
+        const mode = btn.getAttribute('data-target');
+        document.body.setAttribute('data-mode', mode);
+
+        // Swap content
+        if (mode === 'professional') {
+          personalContent.classList.remove('active');
+          // Short timeout allows display:block to apply before animation classes
+          setTimeout(() => professionalContent.classList.add('active'), 50);
+        } else {
+          professionalContent.classList.remove('active');
+          setTimeout(() => personalContent.classList.add('active'), 50);
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>
