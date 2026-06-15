@@ -73,19 +73,21 @@
 
     .nav-socials {
       display: flex;
-      gap: 1rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: flex-end;
     }
 
     .social-pill {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
       background: var(--bg-alt);
       border: 1px solid var(--border);
-      padding: 0.5rem 1rem;
+      padding: 0.4rem 0.8rem;
       border-radius: 100px;
       font-weight: 600;
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       color: var(--text-main);
       box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
@@ -146,7 +148,13 @@
     
     @media (min-width: 640px) {
       .tech-stack-container {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (min-width: 860px) {
+      .tech-stack-container {
+        grid-template-columns: repeat(4, 1fr);
       }
     }
 
@@ -417,6 +425,14 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
           LinkedIn
         </a>
+        <a href="https://leetcode.com/Achintya_Rai" target="_blank" rel="noopener" class="social-pill">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+          LeetCode
+        </a>
+        <a href="https://codeforces.com/profile/Achintya_Rai" target="_blank" rel="noopener" class="social-pill">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="2" width="6" height="20" rx="1"></rect><rect x="4" y="10" width="6" height="12" rx="1"></rect></svg>
+          Codeforces
+        </a>
       </div>
     </nav>
 
@@ -429,7 +445,7 @@
         <br/>
         <div class="accent-bg">Data Scientist & AI Engineer</div>
         <h1>Building intelligent systems that matter.</h1>
-        <p>I'm a 3rd-year CSE student specializing in building production-ready AI tools, RAG pipelines, and data analytics platforms. When I'm not writing Python scripts or training models, I'm exploring new ideas and listening to great music.</p>
+        <p>I am a Data Scientist and AI Engineer passionate about bridging the gap between raw data and actionable intelligence. As a 3rd-year CSE student, I specialize in crafting robust RAG pipelines, autonomous agents, and scalable analytics platforms. Beyond engineering, I thrive on solving complex algorithmic challenges and continuously exploring the bleeding edge of Artificial Intelligence.</p>
       </section>
 
       <!-- Projects -->
@@ -502,8 +518,6 @@
               MERN Stack
             </div>
           </div>
-        </div>
-
         <div>
           <h4 class="tech-category-title">AI & Data</h4>
           <div class="tech-list">
@@ -536,6 +550,25 @@
             <div class="tech-item">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path></svg>
               Git Workflow
+            </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="tech-category-title">Problem Solving</h4>
+          <div class="tech-list">
+            <div class="tech-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              LeetCode
+            </div>
+            <div class="tech-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="2" width="6" height="20" rx="1"></rect><rect x="4" y="10" width="6" height="12" rx="1"></rect></svg>
+              Codeforces
+            </div>
+            <div class="tech-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              Algorithms
             </div>
           </div>
         </div>
