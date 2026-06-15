@@ -452,7 +452,7 @@
               </div>
               <div class="hobby-title" style="margin: 0;">Currently Listening To</div>
             </div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">Click to Play</div>
+            <div id="play-status-text" style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">Click to Play</div>
           </div>
           
           <audio id="myAudio" src="song.mp3" loop></audio>
@@ -634,14 +634,17 @@
     // ── Audio Player Logic ──
     const playerWidget = document.getElementById('player-widget');
     const myAudio = document.getElementById('myAudio');
+    const playStatusText = document.getElementById('play-status-text');
 
     playerWidget.addEventListener('click', () => {
       if (myAudio.paused) {
         myAudio.play().catch(e => console.error("Audio play failed. Make sure song.mp3 exists.", e));
         playerWidget.classList.add('playing');
+        if (playStatusText) playStatusText.textContent = "Click to Pause";
       } else {
         myAudio.pause();
         playerWidget.classList.remove('playing');
+        if (playStatusText) playStatusText.textContent = "Click to Play";
       }
     });
 
