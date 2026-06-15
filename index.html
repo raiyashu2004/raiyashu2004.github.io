@@ -358,6 +358,9 @@
 </head>
 <body data-mode="professional">
 
+  <!-- Interactive Network Canvas -->
+  <canvas id="network-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
+
   <div class="container">
     
     <!-- Navigation -->
@@ -464,15 +467,15 @@
           </div>
         </div>
 
-        <!-- Listening -->
-        <div class="card hobby-card">
-          <div class="hobby-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="17.5" r="2.5"></circle><circle cx="17.5" cy="15.5" r="2.5"></circle><path d="M8 17V5l12-2v12"></path></svg>
+        <!-- Listening (Spotify Integration) -->
+        <div class="card hobby-card" style="padding: 1.5rem; flex-direction: column; align-items: flex-start; gap: 0.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+            <div class="hobby-icon" style="width: 32px; height: 32px; border-radius: 8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="17.5" r="2.5"></circle><circle cx="17.5" cy="15.5" r="2.5"></circle><path d="M8 17V5l12-2v12"></path></svg>
+            </div>
+            <div class="hobby-title" style="margin: 0;">My Spotify Top Tracks</div>
           </div>
-          <div>
-            <div class="hobby-title">On Repeat</div>
-            <div class="hobby-value">Lo-Fi & Synthwave</div>
-          </div>
+          <iframe style="border-radius:12px; width: 100%;" src="https://open.spotify.com/embed/user/31sbaj5sfvdhy5kxkpgzeq6cke2e?utm_source=generator&theme=0" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
 
         <!-- Exploring -->
@@ -522,7 +525,10 @@
   </div>
 
   <script>
-    // Mode Switching Logic
+    // Configuration
+    let currentAccent = '#2563eb'; // Default to Professional blue
+
+    // ── Mode Switching Logic ──
     const toggleButtons = document.querySelectorAll('.mode-btn');
     const professionalContent = document.getElementById('professional-content');
     const personalContent = document.getElementById('personal-content');
@@ -533,14 +539,16 @@
         toggleButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        // Set mode attribute on body to trigger CSS variable changes and toggle pill animation
+        // Set mode attribute on body
         const mode = btn.getAttribute('data-target');
         document.body.setAttribute('data-mode', mode);
+
+        // Update JS variable for canvas color
+        currentAccent = mode === 'professional' ? '#2563eb' : '#f97316';
 
         // Swap content
         if (mode === 'professional') {
           personalContent.classList.remove('active');
-          // Short timeout allows display:block to apply before animation classes
           setTimeout(() => professionalContent.classList.add('active'), 50);
         } else {
           professionalContent.classList.remove('active');
@@ -548,6 +556,126 @@
         }
       });
     });
+
+    // ── Interactive Neural Network Canvas ──
+    const canvas = document.getElementById('network-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+    const mouse = { x: -9999, y: -9999 };
+
+    function initCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      
+      // Calculate number of particles based on screen size (prevent mobile lag)
+      const particleCount = Math.min(Math.floor((width * height) / 12000), 100);
+      particles = [];
+      for(let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    window.addEventListener('resize', initCanvas);
+    
+    // Track mouse
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+    window.addEventListener('mouseout', () => {
+      mouse.x = -9999;
+      mouse.y = -9999;
+    });
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.8;
+        this.vy = (Math.random() - 0.5) * 0.8;
+        this.radius = Math.random() * 1.5 + 1;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        
+        // Bounce off edges
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+        
+        // Magnetism to mouse
+        const dx = mouse.x - this.x;
+        const dy = mouse.y - this.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 180) {
+          // Accelerate slightly towards mouse
+          this.x += dx * 0.015;
+          this.y += dy * 0.015;
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = currentAccent;
+        ctx.fill();
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      
+      // Draw connecting lines
+      ctx.lineWidth = 0.8;
+      for(let i = 0; i < particles.length; i++) {
+        for(let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          
+          if (dist < 140) {
+            ctx.beginPath();
+            ctx.strokeStyle = currentAccent;
+            // Fade out line as nodes get further apart
+            ctx.globalAlpha = 1 - (dist / 140);
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+          }
+        }
+      }
+      
+      // Draw lines to mouse
+      for(let i = 0; i < particles.length; i++) {
+        const dx = particles[i].x - mouse.x;
+        const dy = particles[i].y - mouse.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        
+        if (dist < 180) {
+          ctx.beginPath();
+          ctx.strokeStyle = currentAccent;
+          ctx.globalAlpha = (1 - (dist / 180)) * 0.8;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+        }
+      }
+      
+      requestAnimationFrame(animate);
+    }
+
+    // Start
+    initCanvas();
+    animate();
   </script>
 
 </body>
