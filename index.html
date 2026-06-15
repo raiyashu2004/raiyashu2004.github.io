@@ -3,257 +3,250 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Achintya Rai — Data Scientist & AI Engineer</title>
+  <title>Achintya Rai — AI Engineer</title>
   <meta name="description" content="Portfolio of Achintya Rai, Data Scientist & AI Engineer." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
   <style>
     /* ── Reset & Base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     
     :root {
-      --bg: #fafafa;
-      --surface: #ffffff;
-      --text-main: #111827;
-      --text-muted: #4b5563;
-      --text-light: #9ca3af;
-      --border: #e5e7eb;
-      --border-hover: #d1d5db;
-      --accent: #0f172a;
-      --radius: 12px;
-      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+      --bg: #030712;
+      --card-bg: rgba(17, 24, 39, 0.6);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(31, 41, 55, 0.7);
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.4);
+      --font-sans: 'Outfit', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
+      background-color: var(--bg);
       color: var(--text-main);
       font-family: var(--font-sans);
       font-size: 16px;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
     }
 
-    ::selection {
-      background: rgba(15, 23, 42, 0.1);
-      color: var(--text-main);
+    /* ── Animated Background Mesh ── */
+    .bg-mesh {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+      overflow: hidden;
+      background: #030712;
+    }
+
+    .bg-mesh::before, .bg-mesh::after {
+      content: '';
+      position: absolute;
+      width: 60vw;
+      height: 60vw;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.15;
+      animation: drift 20s infinite alternate ease-in-out;
+    }
+
+    .bg-mesh::before {
+      background: #3b82f6;
+      top: -10%; left: -10%;
+    }
+
+    .bg-mesh::after {
+      background: #8b5cf6;
+      bottom: -10%; right: -10%;
+      animation-delay: -10s;
+    }
+
+    @keyframes drift {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(10%, 10%) scale(1.1); }
     }
 
     a {
       color: inherit;
       text-decoration: none;
-      transition: color 0.2s ease;
     }
 
     /* ── Layout ── */
     .container {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 0 1.5rem;
+      padding: 4rem 1.5rem;
     }
 
-    /* ── Navigation ── */
-    nav {
-      padding: 2rem 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4rem;
+    /* ── Bento Grid ── */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: minmax(180px, auto);
+      gap: 1.25rem;
     }
-    
-    .nav-brand {
+
+    /* ── Bento Cards (Glassmorphism) ── */
+    .bento-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s, border-color 0.3s;
+    }
+
+    .bento-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      border-radius: 24px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .bento-card:hover {
+      transform: translateY(-4px);
+      background: var(--card-hover);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+    }
+
+    /* ── Specific Spans ── */
+    .span-4 { grid-column: span 4; }
+    .span-2 { grid-column: span 2; }
+    .span-3 { grid-column: span 3; }
+    .span-1 { grid-column: span 1; }
+
+    /* ── Card Contents ── */
+    .card-title {
+      font-size: 1.25rem;
       font-weight: 600;
-      font-size: 1.125rem;
-      color: var(--text-main);
-      letter-spacing: -0.01em;
-    }
-
-    .nav-links {
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
       display: flex;
-      gap: 1.5rem;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    .nav-links a {
-      font-size: 0.875rem;
-      font-weight: 500;
+    .card-text {
       color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
     }
 
-    .nav-links a:hover {
-      color: var(--text-main);
+    /* ── Hero Card ── */
+    .hero-card {
+      justify-content: center;
     }
 
-    /* ── Hero Section ── */
-    .hero {
-      margin-bottom: 6rem;
+    .avatar-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
     }
 
-    .role-badge {
+    .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.1);
+    }
+
+    .hero-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      background: rgba(56, 189, 248, 0.1);
+      padding: 0.35rem 0.75rem;
+      border-radius: 100px;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.375rem 0.75rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 2rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
     }
 
-    .hero h1 {
-      font-size: clamp(2.5rem, 5vw, 3.5rem);
+    .hero-title {
+      font-size: clamp(2rem, 4vw, 2.75rem);
       font-weight: 700;
       line-height: 1.1;
       letter-spacing: -0.03em;
-      margin-bottom: 1.25rem;
-      color: var(--text-main);
+      margin-bottom: 1rem;
     }
 
-    .hero p {
-      font-size: 1.125rem;
-      color: var(--text-muted);
-      max-width: 600px;
-      line-height: 1.6;
-      font-weight: 400;
+    /* Typing effect */
+    .typing {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid var(--accent);
+      animation: typing 3s steps(30, end), blink-caret .75s step-end infinite;
     }
 
-    /* ── Sections ── */
-    section {
-      margin-bottom: 6rem;
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: var(--accent) }
     }
 
-    .section-header {
-      font-size: 1.5rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 2rem;
-      color: var(--text-main);
-    }
-
-    /* ── Personal Touches (Animations & Avatar) ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .animate-up {
-      opacity: 0;
-      animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    
-    .delay-1 { animation-delay: 0.1s; }
-    .delay-2 { animation-delay: 0.2s; }
-    .delay-3 { animation-delay: 0.3s; }
-
-    .avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--border);
-      margin-bottom: 1.5rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      transition: transform 0.3s ease;
-    }
-
-    .avatar:hover {
-      transform: scale(1.05);
-    }
-
-    /* ── Hobbies Widget ── */
-    .hobbies-widget {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-top: 2rem;
-      margin-bottom: 3rem;
-    }
-
-    .hobby-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 0.75rem 1.25rem;
-      border-radius: 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-      transition: border-color 0.2s, transform 0.2s;
-    }
-
-    .hobby-card:hover {
-      border-color: var(--border-hover);
-      transform: translateY(-2px);
-    }
-
-    .hobby-icon {
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-    }
-    
-    .hobby-label {
-      font-weight: 600;
-      color: var(--text-main);
-      display: block;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.1rem;
-    }
-
-    /* ── About ── */
-    .about-text {
-      font-size: 1rem;
-      color: var(--text-muted);
-      max-width: 680px;
-      line-height: 1.8;
-    }
-
-    .about-text strong {
-      color: var(--text-main);
-      font-weight: 500;
-    }
-
-    /* ── Projects Grid ── */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    @media (min-width: 640px) {
-      .projects-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .project-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2rem;
-      transition: all 0.2s ease;
+    /* ── Small Cards (Location/Status) ── */
+    .mini-card {
       display: flex;
       flex-direction: column;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    
+    .mini-card svg {
+      width: 32px;
+      height: 32px;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+      opacity: 0.8;
     }
 
-    .project-card:hover {
-      border-color: var(--border-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px -4px rgba(0,0,0,0.05);
+    .pulse-dot {
+      width: 10px; height: 10px;
+      background-color: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulse 2s infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* ── Project Cards ── */
+    .project-card {
+      justify-content: space-between;
     }
 
     .project-header {
@@ -263,320 +256,265 @@
       margin-bottom: 1rem;
     }
 
-    .project-title {
-      font-size: 1.125rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      color: var(--text-main);
-    }
-
     .project-icon {
-      width: 2.5rem;
-      height: 2.5rem;
-      background: #f3f4f6;
-      border-radius: 0.5rem;
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--accent);
-    }
-
-    .project-icon svg {
-      width: 1.25rem;
-      height: 1.25rem;
-    }
-
-    .project-desc {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-      flex-grow: 1;
-      margin-bottom: 1.5rem;
+      color: #fff;
     }
 
     .project-tech {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
+      margin-top: 1.5rem;
     }
 
-    .tech-tag {
-      font-size: 0.75rem;
-      font-weight: 500;
+    .tech-pill {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.25rem 0.6rem;
+      border-radius: 100px;
       color: var(--text-muted);
-      background: #f3f4f6;
-      padding: 0.25rem 0.625rem;
-      border-radius: 1rem;
     }
 
-    /* ── Skills ── */
-    .skills-grid {
+    .project-links {
+      margin-top: 1.5rem;
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .skill-badge {
-      font-size: 0.875rem;
-      color: var(--text-main);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      font-weight: 500;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-    }
-
-    /* ── Contact ── */
-    .contact-wrapper {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1.5rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-    }
-
-    @media (min-width: 640px) {
-      .contact-wrapper {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-      }
-    }
-
-    .contact-info h3 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .contact-info p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    .button-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--accent);
-      color: #ffffff;
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.5rem;
-      font-weight: 500;
-      font-size: 0.95rem;
-      transition: opacity 0.2s;
-      white-space: nowrap;
-    }
-
-    .button-primary:hover {
-      opacity: 0.9;
-    }
-
-    .button-primary svg {
-      width: 1.25rem;
-      height: 1.25rem;
-    }
-
-    /* ── Footer ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2.5rem 0;
-      margin-top: 4rem;
-    }
-
-    .footer-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
       gap: 1rem;
     }
 
-    .footer-text {
+    .project-links a {
       font-size: 0.875rem;
-      color: var(--text-light);
+      font-weight: 500;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
     }
 
+    .project-links a:hover { color: var(--accent); }
+
+    /* ── Skills Marquee ── */
+    .skills-card {
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    
+    .skills-grid-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-tag {
+      font-size: 0.875rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .skill-tag:hover {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+
+    /* ── Social / Contact ── */
     .social-links {
       display: flex;
-      gap: 1.25rem;
+      gap: 1rem;
+      margin-top: auto;
     }
 
-    .social-links a {
-      color: var(--text-light);
-    }
-
-    .social-links a:hover {
+    .social-btn {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: var(--text-main);
+      transition: all 0.2s;
     }
 
-    .social-links svg {
-      width: 1.25rem;
-      height: 1.25rem;
+    .social-btn:hover {
+      background: var(--text-main);
+      color: var(--bg);
+      transform: translateY(-2px);
+    }
+
+    /* ── Animations ── */
+    .fade-up {
+      opacity: 0;
+      animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Staggered delays */
+    .d-1 { animation-delay: 0.1s; }
+    .d-2 { animation-delay: 0.2s; }
+    .d-3 { animation-delay: 0.3s; }
+    .d-4 { animation-delay: 0.4s; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .span-4, .span-3, .span-2 { grid-column: span 2; }
+      .span-1 { grid-column: span 1; }
+    }
+
+    @media (max-width: 600px) {
+      .bento-grid {
+        grid-template-columns: 1fr;
+      }
+      .span-4, .span-3, .span-2, .span-1 { grid-column: span 1; }
+      .hero-title { font-size: 2.25rem; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Dynamic Animated Background -->
+  <div class="bg-mesh"></div>
+
   <div class="container">
-    
-    <!-- Navigation -->
-    <nav>
-      <a href="#" class="nav-brand">Achintya Rai</a>
-      <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-      </div>
-    </nav>
-
-    <!-- Hero -->
-    <section class="hero animate-up">
-      <img src="https://github.com/raiyashu2004.png" alt="Achintya Rai" class="avatar" />
-      <br/>
-      <div class="role-badge">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        Data Scientist & AI Engineer
-      </div>
-      <h1 class="animate-up delay-1">Building intelligent systems at the intersection of data and design.</h1>
-      <p class="animate-up delay-2">
-        I'm a B.Tech Computer Science student specializing in building production-ready AI tools, 
-        RAG pipelines, and data analytics platforms that solve real-world problems.
-      </p>
-    </section>
-
-    <!-- Projects -->
-    <section id="projects">
-      <h2 class="section-header">Featured Work</h2>
-      <div class="projects-grid">
-        
-        <!-- Project 1: STRATEGOS -->
-        <div class="project-card">
-          <div class="project-header">
-            <h3 class="project-title">STRATEGOS</h3>
-            <div class="project-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-            </div>
-          </div>
-          <p class="project-desc">
-            A full-stack autonomous data analyst agent. It ingests raw datasets, independently reasons about them using a custom ReAct loop, writes and executes Python/Pandas code in a secure sandbox, and generates comprehensive reports with interactive visualizations.
-          </p>
-          <div class="project-tech">
-            <span class="tech-tag">React</span>
-            <span class="tech-tag">FastAPI</span>
-            <span class="tech-tag">Spring Boot</span>
-            <span class="tech-tag">LangChain</span>
-          </div>
-          <div style="margin-top: 1.5rem; display: flex; gap: 1rem; font-size: 0.875rem; font-weight: 500;">
-            <a href="https://strategos-data.vercel.app" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: underline; text-underline-offset: 4px;">Live Demo</a>
-            <a href="https://github.com/raiyashu2004/data-analyst-agent" target="_blank" rel="noopener" style="color: var(--text-muted); text-decoration: underline; text-underline-offset: 4px;">GitHub</a>
-          </div>
-        </div>
-
-        <!-- Project 2: JurisAI -->
-        <div class="project-card">
-          <div class="project-header">
-            <h3 class="project-title">JurisAI</h3>
-            <div class="project-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-            </div>
-          </div>
-          <p class="project-desc">
-            A specialized Legal AI chatbot designed for the Indian judicial system. It utilizes Retrieval-Augmented Generation (RAG) pipelines and vector databases to retrieve relevant case laws, penal codes, and legal precedents to assist legal professionals.
-          </p>
-          <div class="project-tech">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">pgvector</span>
-            <span class="tech-tag">LLMs</span>
-            <span class="tech-tag">NLP</span>
-          </div>
-          <div style="margin-top: 1.5rem; display: flex; gap: 1rem; font-size: 0.875rem; font-weight: 500;">
-            <a href="https://botjuris-six.vercel.app" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: underline; text-underline-offset: 4px;">Live Demo</a>
-            <a href="https://github.com/raiyashu2004/Juris" target="_blank" rel="noopener" style="color: var(--text-muted); text-decoration: underline; text-underline-offset: 4px;">GitHub</a>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- About & Skills -->
-    <section id="about" class="animate-up delay-3">
-      <h2 class="section-header">About & Skills</h2>
-      <p class="about-text">
-        Currently in my third year of Computer Science & Engineering at GLAU. I focus deeply on bridging the gap between complex machine learning models and usable, elegant software interfaces. Beyond web development, I am actively researching and publishing on novel NLP evaluation metrics.
-      </p>
-
-      <div class="hobbies-widget">
-        <div class="hobby-card">
-          <span class="hobby-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-          </span>
-          <div>
-            <span class="hobby-label">Currently Reading</span>
-            "Designing Data-Intensive Apps"
-          </div>
-        </div>
-        <div class="hobby-card">
-          <span class="hobby-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"></circle><circle cx="17.5" cy="15.5" r="2.5"></circle><path d="M8 17V5l12-2v12"></path></svg>
-          </span>
-          <div>
-            <span class="hobby-label">Listening To</span>
-            Lo-Fi / Synthwave
-          </div>
-        </div>
-      </div>
+    <div class="bento-grid">
       
-      <div class="skills-grid">
-        <span class="skill-badge">Python</span>
-        <span class="skill-badge">Machine Learning</span>
-        <span class="skill-badge">NLP & LLMs</span>
-        <span class="skill-badge">RAG Pipelines</span>
-        <span class="skill-badge">FastAPI</span>
-        <span class="skill-badge">React</span>
-        <span class="skill-badge">Spring Boot</span>
-        <span class="skill-badge">PostgreSQL</span>
-        <span class="skill-badge">Docker</span>
-      </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact">
-      <h2 class="section-header">Let's Connect</h2>
-      <div class="contact-wrapper">
-        <div class="contact-info">
-          <h3>Get in touch</h3>
-          <p>I'm currently open to internships, research collaborations, and exciting project discussions.</p>
+      <!-- 1. Hero Bio (Span 2) -->
+      <div class="bento-card hero-card span-2 fade-up d-1">
+        <div class="avatar-wrapper">
+          <img src="https://github.com/raiyashu2004.png" alt="Achintya Rai" class="avatar" />
+          <div class="hero-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Data Scientist & AI Engineer
+          </div>
         </div>
-        <a href="mailto:raiachintya984@gmail.com" class="button-primary">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-          Send an email
-        </a>
+        <h1 class="hero-title">
+          Hi, I'm Achintya. <br/>
+          <span style="color: var(--text-muted); font-weight: 400; font-size: clamp(1.2rem, 2vw, 1.5rem);">I build <span class="typing">intelligent systems.</span></span>
+        </h1>
+        <p class="card-text">
+          Currently a 3rd-year CSE student bridging the gap between complex ML models and elegant software interfaces. Passionate about RAG pipelines and Data Analytics.
+        </p>
       </div>
-    </section>
 
-    <!-- Footer -->
-    <footer>
-      <div class="footer-content">
-        <div class="footer-text">
-          © 2025 Achintya Rai. All rights reserved.
+      <!-- 2. Location (Span 1) -->
+      <div class="bento-card mini-card span-1 fade-up d-2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        <h3 class="card-title" style="margin:0; font-size:1rem;">Based In</h3>
+        <p class="card-text">India</p>
+      </div>
+
+      <!-- 3. Status (Span 1) -->
+      <div class="bento-card mini-card span-1 fade-up d-3">
+        <div class="pulse-dot"></div>
+        <h3 class="card-title" style="margin:0; font-size:1rem;">Available For</h3>
+        <p class="card-text">Internships & Research</p>
+      </div>
+
+      <!-- 4. Project: STRATEGOS (Span 2) -->
+      <div class="bento-card project-card span-2 fade-up d-2">
+        <div class="project-header">
+          <div class="project-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          </div>
         </div>
+        <h3 class="card-title">STRATEGOS</h3>
+        <p class="card-text">
+          A full-stack autonomous data analyst. Ingests datasets, independently reasons via a ReAct loop, executes Pandas code in a secure sandbox, and streams visual reports.
+        </p>
+        <div class="project-tech">
+          <span class="tech-pill">React</span>
+          <span class="tech-pill">FastAPI</span>
+          <span class="tech-pill">Spring Boot</span>
+          <span class="tech-pill">LangChain</span>
+        </div>
+        <div class="project-links">
+          <a href="https://strategos-data.vercel.app" target="_blank">
+            Live Demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+          </a>
+          <a href="https://github.com/raiyashu2004/data-analyst-agent" target="_blank" style="color:var(--text-muted)">
+            GitHub <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- 5. Project: JurisAI (Span 2) -->
+      <div class="bento-card project-card span-2 fade-up d-3">
+        <div class="project-header">
+          <div class="project-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+          </div>
+        </div>
+        <h3 class="card-title">JurisAI</h3>
+        <p class="card-text">
+          A Legal AI chatbot for the Indian judicial system. Uses RAG pipelines and vector databases to retrieve case laws and precedents to assist legal professionals.
+        </p>
+        <div class="project-tech">
+          <span class="tech-pill">Python</span>
+          <span class="tech-pill">pgvector</span>
+          <span class="tech-pill">LLMs</span>
+          <span class="tech-pill">NLP</span>
+        </div>
+        <div class="project-links">
+          <a href="https://botjuris-six.vercel.app" target="_blank">
+            Live Demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+          </a>
+          <a href="https://github.com/raiyashu2004/Juris" target="_blank" style="color:var(--text-muted)">
+            GitHub <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- 6. Tech Stack (Span 2) -->
+      <div class="bento-card skills-card span-2 fade-up d-4">
+        <h3 class="card-title">Tech Stack</h3>
+        <div class="skills-grid-inner" style="margin-top:1rem;">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">FastAPI</span>
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">Spring Boot</span>
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">NLP & LLMs</span>
+          <span class="skill-tag">RAG</span>
+        </div>
+      </div>
+
+      <!-- 7. Connect (Span 2) -->
+      <div class="bento-card span-2 fade-up d-4">
+        <h3 class="card-title">Let's Connect</h3>
+        <p class="card-text">
+          Drop me an email to discuss internships, NLP research, or exciting software projects.
+        </p>
         <div class="social-links">
-          <a href="https://github.com/raiyashu2004" target="_blank" rel="noopener" aria-label="GitHub">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          <a href="mailto:raiachintya984@gmail.com" class="social-btn" aria-label="Email">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
           </a>
-          <a href="https://linkedin.com/in/achintya-rai-2293b6401/" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+          <a href="https://github.com/raiyashu2004" target="_blank" rel="noopener" class="social-btn" aria-label="GitHub">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          </a>
+          <a href="https://linkedin.com/in/achintya-rai-2293b6401/" target="_blank" rel="noopener" class="social-btn" aria-label="LinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
           </a>
         </div>
       </div>
-    </footer>
 
+    </div>
   </div>
 
 </body>
