@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Achintya Rai — Data Scientist & AI Engineer</title>
+  <meta name="description" content="Portfolio of Achintya Rai, Data Scientist & AI Engineer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --text-main: #111827;
+      --text-muted: #4b5563;
+      --text-light: #9ca3af;
+      --border: #e5e7eb;
+      --border-hover: #d1d5db;
+      --accent: #0f172a;
+      --radius: 12px;
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection {
+      background: rgba(15, 23, 42, 0.1);
+      color: var(--text-main);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      padding: 2rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4rem;
+    }
+    
+    .nav-brand {
+      font-weight: 600;
+      font-size: 1.125rem;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .nav-links a:hover {
+      color: var(--text-main);
+    }
+
+    /* ── Hero Section ── */
+    .hero {
+      margin-bottom: 6rem;
+    }
+
+    .role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.375rem 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+      color: var(--text-main);
+    }
+
+    .hero p {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    /* ── Sections ── */
+    section {
+      margin-bottom: 6rem;
+    }
+
+    .section-header {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      color: var(--text-main);
+    }
+
+    /* ── About ── */
+    .about-text {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 680px;
+      line-height: 1.8;
+    }
+
+    .about-text strong {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    /* ── Projects Grid ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 640px) {
+      .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .project-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px -4px rgba(0,0,0,0.05);
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .project-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text-main);
+    }
+
+    .project-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      background: #f3f4f6;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+    }
+
+    .project-icon svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    .project-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      flex-grow: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tech-tag {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: #f3f4f6;
+      padding: 0.25rem 0.625rem;
+      border-radius: 1rem;
+    }
+
+    /* ── Skills ── */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-badge {
+      font-size: 0.875rem;
+      color: var(--text-main);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+
+    /* ── Contact ── */
+    .contact-wrapper {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    @media (min-width: 640px) {
+      .contact-wrapper {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .contact-info h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-info p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .button-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--accent);
+      color: #ffffff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+
+    .button-primary:hover {
+      opacity: 0.9;
+    }
+
+    .button-primary svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-text {
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1.25rem;
+    }
+
+    .social-links a {
+      color: var(--text-light);
+    }
+
+    .social-links a:hover {
+      color: var(--text-main);
+    }
+
+    .social-links svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Navigation -->
+    <nav>
+      <a href="#" class="nav-brand">Achintya Rai</a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="role-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Data Scientist & AI Engineer
+      </div>
+      <h1>Building intelligent systems at the intersection of data and design.</h1>
+      <p>
+        I'm a B.Tech Computer Science student specializing in building production-ready AI tools, 
+        RAG pipelines, and data analytics platforms that solve real-world problems.
+      </p>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <h2 class="section-header">Featured Work</h2>
+      <div class="projects-grid">
+        
+        <!-- Project 1: STRATEGOS -->
+        <div class="project-card">
+          <div class="project-header">
+            <h3 class="project-title">STRATEGOS</h3>
+            <div class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            </div>
+          </div>
+          <p class="project-desc">
+            A full-stack autonomous data analyst agent. It ingests raw datasets, independently reasons about them using a custom ReAct loop, writes and executes Python/Pandas code in a secure sandbox, and generates comprehensive reports with interactive visualizations.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">Spring Boot</span>
+            <span class="tech-tag">LangChain</span>
+          </div>
+          <div style="margin-top: 1.5rem; display: flex; gap: 1rem; font-size: 0.875rem; font-weight: 500;">
+            <a href="https://strategos-data.vercel.app" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: underline; text-underline-offset: 4px;">Live Demo</a>
+            <a href="https://github.com/raiyashu2004/data-analyst-agent" target="_blank" rel="noopener" style="color: var(--text-muted); text-decoration: underline; text-underline-offset: 4px;">GitHub</a>
+          </div>
+        </div>
+
+        <!-- Project 2: JurisAI -->
+        <div class="project-card">
+          <div class="project-header">
+            <h3 class="project-title">JurisAI</h3>
+            <div class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            </div>
+          </div>
+          <p class="project-desc">
+            A specialized Legal AI chatbot designed for the Indian judicial system. It utilizes Retrieval-Augmented Generation (RAG) pipelines and vector databases to retrieve relevant case laws, penal codes, and legal precedents to assist legal professionals.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">pgvector</span>
+            <span class="tech-tag">LLMs</span>
+            <span class="tech-tag">NLP</span>
+          </div>
+          <div style="margin-top: 1.5rem; display: flex; gap: 1rem; font-size: 0.875rem; font-weight: 500;">
+            <a href="https://botjuris-six.vercel.app" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: underline; text-underline-offset: 4px;">Live Demo</a>
+            <a href="https://github.com/raiyashu2004/Juris" target="_blank" rel="noopener" style="color: var(--text-muted); text-decoration: underline; text-underline-offset: 4px;">GitHub</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- About & Skills -->
+    <section id="about">
+      <h2 class="section-header">About & Skills</h2>
+      <p class="about-text" style="margin-bottom: 2rem;">
+        Currently in my third year of Computer Science & Engineering at GLAU. I focus deeply on bridging the gap between complex machine learning models and usable, elegant software interfaces. Beyond web development, I am actively researching and publishing on novel NLP evaluation metrics.
+      </p>
+      
+      <div class="skills-grid">
+        <span class="skill-badge">Python</span>
+        <span class="skill-badge">Machine Learning</span>
+        <span class="skill-badge">NLP & LLMs</span>
+        <span class="skill-badge">RAG Pipelines</span>
+        <span class="skill-badge">FastAPI</span>
+        <span class="skill-badge">React</span>
+        <span class="skill-badge">Spring Boot</span>
+        <span class="skill-badge">PostgreSQL</span>
+        <span class="skill-badge">Docker</span>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <h2 class="section-header">Let's Connect</h2>
+      <div class="contact-wrapper">
+        <div class="contact-info">
+          <h3>Get in touch</h3>
+          <p>I'm currently open to internships, research collaborations, and exciting project discussions.</p>
+        </div>
+        <a href="mailto:raiachintya984@gmail.com" class="button-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          Send an email
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-text">
+          © 2025 Achintya Rai. All rights reserved.
+        </div>
+        <div class="social-links">
+          <a href="https://github.com/raiyashu2004" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          </a>
+          <a href="https://linkedin.com/in/achintya-rai-2293b6401/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+          </a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>
