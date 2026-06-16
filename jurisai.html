@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JurisAI - Achintya Rai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#f8fafc',
+        primaryTextColor: '#0f172a',
+        primaryBorderColor: '#e2e8f0',
+        lineColor: '#7c3aed',
+        secondaryColor: '#f3e8ff',
+        tertiaryColor: '#ffffff'
+      }
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="nav-brand">Achintya<span>.</span></div>
+      <a href="index.html" class="social-pill" style="text-decoration: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 4px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to Home
+      </a>
+    </nav>
+    <section class="hero fade-up">
+      <div class="accent-bg">Project Case Study</div>
+      <h1>JurisAI</h1>
+      <p>A specialized Legal AI chatbot designed for the Indian judicial system. It uses RAG pipelines to retrieve case laws and legal precedents.</p>
+      <div style="display: flex; gap: 1rem; font-weight: 600; font-size: 0.875rem; margin-top: 1.5rem;">
+        <a href="https://botjuris-six.vercel.app" target="_blank" style="color: var(--accent);">Live Demo &rarr;</a>
+        <a href="https://github.com/raiyashu2004/Juris" target="_blank" style="color: var(--text-muted);">GitHub Repo</a>
+      </div>
+    </section>
+
+    <h2 class="section-header fade-up">How It Started</h2>
+    <div class="card fade-up">
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        The legal system in India is incredibly vast, with millions of historical case records and precedents. Legal professionals often spend huge amounts of time simply searching through dense archives to find relevant cases to support their arguments.
+      </p>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-top: 1rem;">
+        I wanted to leverage the power of Large Language Models and Retrieval-Augmented Generation (RAG) to make this process instantaneous. JurisAI was built to act as a highly specialized legal assistant capable of semantic search across complex legal texts, understanding the nuance of legal queries rather than relying solely on keyword matching.
+      </p>
+    </div>
+
+    <h2 class="section-header fade-up">Architecture & Flowchart</h2>
+    <div class="card fade-up" style="overflow-x: auto; text-align: center;">
+      <pre class="mermaid">
+        graph TD
+          User((User)) -->|Enters Legal Query| Frontend[Chat UI]
+          Frontend -->|API Request| Backend[Python Backend]
+          Backend --> Embedder[Embedding Model]
+          Embedder -->|Generates Vectors| DB[(pgvector Database)]
+          DB -->|Returns Top-K Similar Cases| Backend
+          Backend -->|Context + Query| LLM{Large Language Model}
+          LLM -->|Synthesizes Response| Backend
+          Backend -->|Legal Advice & Citations| Frontend
+          Frontend --> User
+      </pre>
+    </div>
+
+    <h2 class="section-header fade-up">Challenges Faced</h2>
+    <div class="card fade-up">
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">1. Vector Search Accuracy</h3>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+        Traditional keyword search fails for complex legal queries because the phrasing of the question rarely matches the exact phrasing of the historical document. Transitioning to dense vector embeddings using <code>pgvector</code> allowed the system to perform true semantic search, capturing the "meaning" of the query and retrieving highly relevant documents even when terminology differed.
+      </p>
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">2. Hallucination Mitigation</h3>
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        In the legal domain, hallucinated facts or fabricated case laws are disastrous. To combat this, the LLM is strictly prompted to only synthesize answers using the retrieved context. The RAG pipeline was heavily tuned to inject precise citations and to gracefully refuse to answer if the retrieved context did not contain sufficient legal precedent.
+      </p>
+    </div>
+
+    <footer style="margin-top: 4rem;">
+      <div>© 2025 Achintya Rai. Based in India.</div>
+    </footer>
+  </div>
+  
+  <script>
+    // ── Scroll Animation Observer ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card, .section-header, .hero, .nav-socials').forEach(el => {
+      el.classList.add('fade-up');
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

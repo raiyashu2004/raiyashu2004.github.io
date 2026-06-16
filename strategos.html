@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STRATEGOS - Achintya Rai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#f8fafc',
+        primaryTextColor: '#0f172a',
+        primaryBorderColor: '#e2e8f0',
+        lineColor: '#7c3aed',
+        secondaryColor: '#f3e8ff',
+        tertiaryColor: '#ffffff'
+      }
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="nav-brand">Achintya<span>.</span></div>
+      <a href="index.html" class="social-pill" style="text-decoration: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 4px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to Home
+      </a>
+    </nav>
+    <section class="hero fade-up">
+      <div class="accent-bg">Project Case Study</div>
+      <h1>STRATEGOS</h1>
+      <p>A full-stack autonomous data analyst agent. It ingests datasets, reasons via a ReAct loop, and executes Python code in a secure sandbox.</p>
+      <div style="display: flex; gap: 1rem; font-weight: 600; font-size: 0.875rem; margin-top: 1.5rem;">
+        <a href="https://strategos-data.vercel.app" target="_blank" style="color: var(--accent);">Live Demo &rarr;</a>
+        <a href="https://github.com/raiyashu2004/data-analyst-agent" target="_blank" style="color: var(--text-muted);">GitHub Repo</a>
+      </div>
+    </section>
+
+    <h2 class="section-header fade-up">How It Started</h2>
+    <div class="card fade-up">
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        The idea for STRATEGOS came from observing the repetitive nature of data analysis tasks. Analysts often spend hours writing boilerplate code to clean data, generate basic charts, and extract simple statistics before even getting to the actual insights. 
+      </p>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-top: 1rem;">
+        I wanted to build an autonomous agent that could handle this initial heavy lifting. The goal was to create a system where a user could simply upload a dataset and ask questions in plain English, and the system would write, test, and execute the necessary code to provide answers and visualizations dynamically.
+      </p>
+    </div>
+
+    <h2 class="section-header fade-up">Architecture & Flowchart</h2>
+    <div class="card fade-up" style="overflow-x: auto; text-align: center;">
+      <pre class="mermaid">
+        graph TD
+          User((User)) -->|Uploads Data & Query| Frontend[React Frontend]
+          Frontend -->|API Request| Backend[FastAPI & Spring Boot Backend]
+          Backend --> LangChain[LangChain Agent]
+          LangChain -->|ReAct Loop Reasoning| LLM{Large Language Model}
+          LLM -->|Code Generation| Sandbox[Secure Python Sandbox]
+          Sandbox -->|Execution Output & Charts| LangChain
+          LangChain -->|Final Answer & Assets| Backend
+          Backend -->|Response| Frontend
+          Frontend -->|Displays Insights| User
+      </pre>
+    </div>
+
+    <h2 class="section-header fade-up">Challenges Faced</h2>
+    <div class="card fade-up">
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">1. Safe Code Execution</h3>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+        Allowing an LLM to generate and execute arbitrary Python code is a massive security risk. To solve this, I had to implement a strict, containerized sandbox environment. The backend spins up isolated Docker containers that restrict network access and file system privileges so that the generated code cannot compromise the host server.
+      </p>
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">2. The ReAct Loop Reliability</h3>
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        Getting the LLM to consistently follow the Reasoning and Acting (ReAct) framework without hallucinating unavailable tools was difficult. I optimized the prompt engineering and LangChain tools to enforce strict JSON schemas, ensuring that if the code failed, the agent could read the traceback and autonomously fix its own code before returning the final answer to the user.
+      </p>
+    </div>
+
+    <footer style="margin-top: 4rem;">
+      <div>© 2025 Achintya Rai. Based in India.</div>
+    </footer>
+  </div>
+  
+  <script>
+    // ── Scroll Animation Observer ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card, .section-header, .hero, .nav-socials').forEach(el => {
+      el.classList.add('fade-up');
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
