@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1024" />
+  <title>Blog - Achintya Rai</title>
+  <meta name="description" content="Blog and writings by Achintya Rai." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Interactive Network Canvas -->
+  <canvas id="network-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
+
+  <div class="container">
+    
+    <!-- Navigation -->
+    <nav>
+      <div class="nav-brand">Achintya<span>.</span></div>
+      
+      <div class="nav-socials">
+        <a href="index.html" class="social-pill" style="text-decoration: none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 4px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          Home
+        </a>
+      </div>
+    </nav>
+
+    <!-- Content View -->
+    <div>
+      
+      <!-- Hero for Blog -->
+      <section class="hero fade-up" style="margin-bottom: 2rem;">
+        <div class="accent-bg">Articles & Thoughts</div>
+        <h1>Writing.</h1>
+        <p>I occasionally write about Artificial Intelligence, backend engineering, and my experiences building autonomous agents.</p>
+      </section>
+
+      <!-- Blog Posts Grid -->
+      <section class="grid-2" style="margin-bottom: 4rem;">
+        
+        <!-- Post 1 -->
+        <div class="card" style="grid-column: 1 / -1;">
+          <div class="project-header">
+            <h3 class="project-title">Why I Built My Personal Portfolio Website</h3>
+            <div class="project-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            </div>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem; font-weight: 500;">
+            June 17, 2026
+          </div>
+          <div style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+            <p style="margin-bottom: 0.75rem;">As a Data Scientist and Backend Engineer, I wanted a place where I could showcase my projects, skills, and learning journey beyond a traditional resume.</p>
+            <p style="margin-bottom: 0.75rem;">That's why I created this portfolio. The goal wasn't just to build a website—it was to create a digital space where I could document my work in Artificial Intelligence, Retrieval-Augmented Generation (RAG), Natural Language Processing, and scalable Backend Engineering.</p>
+            <p style="margin-bottom: 0.5rem;">Through this portfolio, I plan to share:</p>
+            <ul style="margin-bottom: 1rem; padding-left: 1.5rem;">
+              <li style="margin-bottom: 0.25rem;">Technical projects and case studies like <strong>STRATEGOS</strong> and <strong>JurisAI</strong></li>
+              <li style="margin-bottom: 0.25rem;">Lessons learned while building autonomous data agents and RAG pipelines</li>
+              <li style="margin-bottom: 0.25rem;">Experiments with LLMs, vector databases (like pgvector), and modern NLP architectures</li>
+              <li style="margin-bottom: 0.25rem;">My growth as a developer working across Python, FastAPI, Spring Boot, and React</li>
+            </ul>
+            <p style="margin-bottom: 0.75rem;">This is just the beginning, and I'll continue updating the site as I learn, build, and grow.</p>
+            <p>Thanks for visiting and being part of the journey.</p>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div>© 2025 Achintya Rai. Based in India.</div>
+    </footer>
+
+  </div>
+
+  <!-- Interactive Neural Network Canvas Script -->
+  <script>
+    const canvas = document.getElementById('network-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+    const mouse = { x: -9999, y: -9999 };
+    const accentColor = '#2563eb';
+
+    function initCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      
+      const particleCount = Math.min(Math.floor((width * height) / 12000), 100);
+      particles = [];
+      for(let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    window.addEventListener('resize', initCanvas);
+    
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+    window.addEventListener('mouseout', () => {
+      mouse.x = -9999;
+      mouse.y = -9999;
+    });
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.8;
+        this.vy = (Math.random() - 0.5) * 0.8;
+        this.radius = Math.random() * 1.5 + 1;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+        
+        const dx = mouse.x - this.x;
+        const dy = mouse.y - this.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 180) {
+          this.x += dx * 0.015;
+          this.y += dy * 0.015;
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = accentColor;
+        ctx.fill();
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      
+      ctx.lineWidth = 0.8;
+      for(let i = 0; i < particles.length; i++) {
+        for(let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          
+          if (dist < 140) {
+            ctx.beginPath();
+            ctx.strokeStyle = accentColor;
+            ctx.globalAlpha = 1 - (dist / 140);
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+          }
+        }
+      }
+      
+      for(let i = 0; i < particles.length; i++) {
+        const dx = particles[i].x - mouse.x;
+        const dy = particles[i].y - mouse.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        
+        if (dist < 180) {
+          ctx.beginPath();
+          ctx.strokeStyle = accentColor;
+          ctx.globalAlpha = (1 - (dist / 180)) * 0.8;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+        }
+      }
+      
+      requestAnimationFrame(animate);
+    }
+
+    initCanvas();
+    animate();
+
+    // ── Scroll Animation Observer ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card, .section-header, .hero, .nav-socials').forEach(el => {
+      el.classList.add('fade-up');
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
