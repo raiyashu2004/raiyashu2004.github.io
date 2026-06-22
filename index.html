@@ -42,9 +42,15 @@
 </head>
 <body>
 
-  <!-- Splash Screen -->
+  <!-- Premium Splash Screen -->
   <div id="splash-screen">
-    <div class="splash-name">Achintya Rai</div>
+    <div class="splash-content">
+      <div class="splash-name">Achintya Rai</div>
+      <div class="splash-subtitle">Data Scientist & Backend Engineer</div>
+      <div class="splash-loader">
+        <div class="splash-loader-bar"></div>
+      </div>
+    </div>
   </div>
   <script>
     document.body.classList.add('splash-active');
@@ -55,8 +61,8 @@
         setTimeout(() => {
           document.body.classList.remove('splash-active');
           splash.remove();
-        }, 800);
-      }, 1500);
+        }, 900);
+      }, 2200); // Waits for the loading bar to finish
     });
   </script>
   <!-- Interactive Network Canvas -->
