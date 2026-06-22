@@ -42,6 +42,23 @@
 </head>
 <body>
 
+  <!-- Splash Screen -->
+  <div id="splash-screen">
+    <div class="splash-name">Achintya.</div>
+  </div>
+  <script>
+    document.body.classList.add('splash-active');
+    document.addEventListener("DOMContentLoaded", () => {
+      const splash = document.getElementById('splash-screen');
+      setTimeout(() => {
+        splash.style.transform = 'translateY(-100%)';
+        setTimeout(() => {
+          document.body.classList.remove('splash-active');
+          splash.remove();
+        }, 800);
+      }, 1500);
+    });
+  </script>
   <!-- Interactive Network Canvas -->
   <canvas id="network-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
 
