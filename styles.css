@@ -414,7 +414,7 @@
     #splash-screen {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: var(--text-main); /* Dark background for striking contrast */
+      background: var(--bg); /* Match original website background */
       z-index: 99999;
       display: flex;
       justify-content: center;
@@ -430,18 +430,16 @@
     .splash-name {
       font-size: 3.5rem;
       font-weight: 800;
+      color: var(--text-main); /* Match original text color */
       letter-spacing: -0.04em;
       opacity: 0;
       transform: translateY(20px);
       animation: splashTextFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
-      background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
     }
     .splash-subtitle {
       font-size: 0.9rem;
       font-family: monospace;
-      color: #94a3b8;
+      color: var(--text-muted); /* Match original muted text */
       opacity: 0;
       transform: translateY(10px);
       animation: splashTextFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s;
@@ -449,7 +447,7 @@
     .splash-loader {
       width: 160px;
       height: 2px;
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--border); /* Match original border color */
       border-radius: 2px;
       overflow: hidden;
       margin-top: 1.5rem;
@@ -459,7 +457,7 @@
     .splash-loader-bar {
       width: 0%;
       height: 100%;
-      background: #ffffff;
+      background: var(--accent); /* Match original purple accent */
       animation: splashLoad 1.4s cubic-bezier(0.85, 0, 0.15, 1) forwards 0.6s;
     }
     @keyframes splashTextFadeIn {
