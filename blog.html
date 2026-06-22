@@ -69,6 +69,32 @@
           </div>
         </div>
 
+        <!-- Post 2 -->
+        <div class="card fade-up" style="grid-column: 1 / -1; margin-top: 2rem;">
+          <div class="project-header">
+            <h3 class="project-title">Exposing the "Clever Hans" Effect in LLMs</h3>
+            <div class="project-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+            </div>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem; font-weight: 500;">
+            June 22, 2026
+          </div>
+          <div style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+            <p style="margin-bottom: 0.75rem;">I am currently drafting a research paper introducing a new evaluation metric for transformer language models: <strong>Contextual Semantic Reliability (CSR)</strong>.</p>
+            <p style="margin-bottom: 0.75rem;">While models like BERT and DeBERTa achieve incredible scores on standard benchmarks, existing metrics (like BLEU or BERTScore) heavily reward surface-level fluency. Because of this, models often learn statistical shortcuts rather than actually learning to reason—an issue known as the "Clever Hans" effect.</p>
+            <p style="margin-bottom: 0.5rem;">To address this, my CSR framework evaluates the <i>internal</i> reasoning process using four sub-metrics:</p>
+            <ul style="margin-bottom: 1rem; padding-left: 1.5rem;">
+              <li style="margin-bottom: 0.25rem;"><strong>Context Sensitivity Score (CSS)</strong>: Do embeddings distinguish different word senses?</li>
+              <li style="margin-bottom: 0.25rem;"><strong>Attention Alignment Score (AAS)</strong>: Does the network look at logically important tokens using gradient-weighted attribution?</li>
+              <li style="margin-bottom: 0.25rem;"><strong>Semantic Stability Score (SSS)</strong>: Are representations stable across paraphrases?</li>
+              <li style="margin-bottom: 0.25rem;"><strong>Robustness Score (RS)</strong>: How well does it handle adversarial noise?</li>
+            </ul>
+            <p style="margin-bottom: 0.75rem;">One of our most surprising preliminary findings is the "Clever Hans Gap." For instance, BERT does an amazing job separating polysemous words (CSS), but its attention mechanism fails completely at aligning with logical targets (AAS). Furthermore, when we specifically fine-tuned DeBERTa for Natural Language Inference, its internal logical alignment actually <i>decreased</i>!</p>
+            <p>This shows a massive disconnect between producing fluent text and actually reasoning through a problem. I'm excited to wrap up the draft and share the full paper soon.</p>
+          </div>
+        </div>
+
       </section>
 
     </div>
