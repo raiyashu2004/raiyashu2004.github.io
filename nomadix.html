@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NOMADIX - Achintya Rai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#f8fafc',
+        primaryTextColor: '#0f172a',
+        primaryBorderColor: '#e2e8f0',
+        lineColor: '#7c3aed',
+        secondaryColor: '#f3e8ff',
+        tertiaryColor: '#ffffff'
+      }
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="nav-brand">Achintya<span>.</span></div>
+      <a href="index.html" class="social-pill" style="text-decoration: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 4px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to Home
+      </a>
+    </nav>
+    <section class="hero fade-up">
+      <div class="accent-bg">Project Case Study</div>
+      <h1>NOMADIX 🌍✈️</h1>
+      <p>An all-in-one collaborative travel portal that eliminates friction in group trips — featuring democratic AI destination recommendations, interactive itinerary planning, real-time group chat, expense splitting treasury, and shared memory archives.</p>
+      <div style="display: flex; gap: 1rem; font-weight: 600; font-size: 0.875rem; margin-top: 1.5rem;">
+        <a href="https://nomadix-beta.vercel.app" target="_blank" style="color: var(--accent);">Live Demo &rarr;</a>
+        <a href="https://github.com/raiyashu2004/NOMADIX" target="_blank" style="color: var(--text-muted);">GitHub Repo</a>
+      </div>
+    </section>
+
+    <h2 class="section-header fade-up">How It Started</h2>
+    <div class="card fade-up">
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        Planning group travel is notoriously chaotic. Group discussions often devolve into disorganized chat threads where itinerary ideas get lost, splitting shared expenses becomes a tedious accounting chore, and choosing a destination that satisfies everyone's budget and pace leads to endless debates.
+      </p>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-top: 1rem;">
+        I built <strong>NOMADIX</strong> as an intuitive, centralized travel portal designed to bring structure and democracy to group expeditions. By combining a statistical AI recommendation engine with real-time WebSocket communication, NOMADIX allows parties to seamlessly vote on destinations, build architectural day-by-day itineraries, settle group bills, and preserve encrypted polaroid memories in one unified workspace.
+      </p>
+    </div>
+
+    <h2 class="section-header fade-up">Architecture & Flowchart</h2>
+    <div class="card fade-up" style="overflow-x: auto; text-align: center;">
+      <pre class="mermaid">
+        graph TD
+          Travelers((Group Members)) -->|Preferences & Survey| ReactUI[React 19 & Vite Frontend]
+          ReactUI -->|REST & Socket.io| ExpressAPI[Node.js & Express 5 Backend]
+          ExpressAPI --> Auth[JWT Authentication]
+          ExpressAPI --> Consensus[AI Consensus Engine]
+          Consensus -->|Tag Matching & Scoring| Destinations[30+ Curated World Destinations]
+          ExpressAPI -->|Real-time Sync| Socket[Socket.io WebSocket Server]
+          Socket -->|Live Voting, Chat & Itinerary| ReactUI
+          ExpressAPI -->|Persistence| MongoDB[(MongoDB & Mongoose)]
+      </pre>
+    </div>
+
+    <h2 class="section-header fade-up">Challenges Faced</h2>
+    <div class="card fade-up">
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">1. Real-Time Collaborative State Synchronization</h3>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+        Managing live collaborative state across multiple party members—such as instant ballot updates during destination voting, itinerary activity modifications, and concurrent group chat messaging—required robust synchronization. I implemented dedicated Socket.io event rooms mapped to unique group IDs, seamlessly synchronizing real-time events with Zustand global stores on the frontend to prevent state drift and latency bottlenecks.
+      </p>
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">2. Deterministic AI Consensus Scoring</h3>
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        To deliver fast, unbiased destination recommendations without relying on slow or costly third-party LLM APIs, I designed an internal consensus scoring algorithm. The engine computes the statistical mode across traveler surveys for Budget, Vibe, and Pace, and executes deterministic weighted tag-matching against a curated MongoDB collection of global destinations to present democratic top choices.
+      </p>
+    </div>
+
+    <footer style="margin-top: 4rem;">
+      <div>© 2026 Achintya Rai. Based in India.</div>
+    </footer>
+  </div>
+  
+  <script>
+    // ── Scroll Animation Observer ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card, .section-header, .hero, .nav-socials').forEach(el => {
+      el.classList.add('fade-up');
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
