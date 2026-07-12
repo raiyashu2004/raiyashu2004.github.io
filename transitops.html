@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TransitOps - Case Study | Achintya Rai</title>
+  <meta name="description" content="TransitOps - Smart Transport Operations Platform & Enterprise Fleet Management System built with React, Express, and PostgreSQL." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#f8fafc',
+        primaryTextColor: '#0f172a',
+        primaryBorderColor: '#e2e8f0',
+        lineColor: '#0ea5e9',
+        secondaryColor: '#e0f2fe',
+        tertiaryColor: '#ffffff'
+      }
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="nav-brand">Achintya<span>.</span></div>
+      <a href="index.html" class="social-pill" style="text-decoration: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 4px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to Home
+      </a>
+    </nav>
+
+    <section class="hero fade-up">
+      <div class="accent-bg">Project Case Study · Odoo Hackathon</div>
+      <h1>TransitOps</h1>
+      <p>A smart, enterprise-grade transport operations & fleet management platform featuring ACID-compliant state machines, multi-persona RBAC, and real-time operational cost analytics.</p>
+      <div style="display: flex; gap: 1rem; font-weight: 600; font-size: 0.875rem; margin-top: 1.5rem; flex-wrap: wrap;">
+        <a href="https://github.com/rpbArpitKhandelwal/odoo-hackathon-2026/tree/deploy" target="_blank" style="color: var(--accent);">GitHub Repository &rarr;</a>
+      </div>
+    </section>
+
+    <h2 class="section-header fade-up">How It Started</h2>
+    <div class="card fade-up">
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        Logistics and transport operations frequently suffer from fragmented spreadsheet workflows, race conditions during vehicle dispatching, and disconnected financial tracking. Fleet managers often assign vehicles that are undergoing maintenance or drivers with expired licenses because validation only happens on paper or isolated dashboards.
+      </p>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-top: 1rem;">
+        I co-engineered <strong>TransitOps</strong> as an end-to-end, enterprise-ready smart transport operations platform. Built on a clean 3-tier architecture with <strong>React (Vite)</strong>, <strong>Node.js/Express</strong>, and local <strong>PostgreSQL 18 via Prisma ORM</strong>, TransitOps enforces strict business logic inside database transactions—guaranteeing atomic state transitions, foolproof compliance guardrails, and tailored role-based workflows for every persona across the logistics lifecycle.
+      </p>
+    </div>
+
+    <h2 class="section-header fade-up">Architecture & Flowchart</h2>
+    <div class="card fade-up" style="overflow-x: auto; text-align: center;">
+      <pre class="mermaid">
+        graph TD
+          FM((Fleet Manager)) -->|CRUD & Dispatch| UI[React SPA - Vite]
+          SO((Safety Officer)) -->|Compliance & Drivers| UI
+          DR((Driver)) -->|Trip Execution| UI
+          FA((Financial Analyst)) -->|Fuel & ROI Analytics| UI
+          
+          UI -->|REST API + JWT Bearer| API[Express API Server - RBAC Middleware]
+          API -->|Service Layer Transactions| Services[Trip & Maintenance Service Layer]
+          Services -->|Prisma ORM Atomic Queries| DB[(PostgreSQL 18 Database)]
+          
+          subgraph State Enforcement
+            Services --> StateRule[Atomic State Machines: AVAILABLE <--> ON_TRIP / IN_SHOP]
+            Services --> Guardrail[Compliance Guards: License Validity & Cargo Weight Checks]
+          end
+      </pre>
+    </div>
+
+    <h2 class="section-header fade-up">Key Technical Innovations & Challenges Solved</h2>
+    <div class="card fade-up">
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">1. Race-Safe Atomic State Machines inside DB Transactions</h3>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+        A critical challenge in dispatch systems is concurrent assignment—preventing a vehicle or driver from being double-booked across simultaneous trips. In TransitOps, all status transitions (`DRAFT → DISPATCHED → COMPLETED`) execute within atomic database transactions (`prisma.$transaction`). When a trip is dispatched, the system verifies availability and locks both the vehicle and driver status (`ON_TRIP`) atomically, eliminating race conditions entirely.
+      </p>
+
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">2. Multi-Persona Role-Based Access Control (RBAC)</h3>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+        Enterprise logistics teams require segregated domain ownership. TransitOps implements a 4-tier RBAC matrix covering <strong>Fleet Managers</strong> (full system governance), <strong>Safety Officers</strong> (driver compliance & license validity auditing), <strong>Drivers</strong> (trip operational lifecycle), and <strong>Financial Analysts</strong> (fuel logs, expense tracking, and ROI reporting). Security is enforced at both the API layer via JWT authorization middleware and the UI layer via contextual navigation gating.
+      </p>
+
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">3. Precision Financial Analytics & Compliance Guardrails</h3>
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        To prevent floating-point inaccuracies in financial and cargo accounting, all monetary amounts and load weights are modeled as exact `DECIMAL` types at the PostgreSQL schema level. The platform automatically calculates real-time operational KPIs including Fleet Utilization %, Fuel Efficiency (km/L), Per-Vehicle Operating Costs, and Net Fleet ROI, while actively blocking dispatch attempts for drivers with expired licenses or overweight cargo.
+      </p>
+    </div>
+
+    <footer style="margin-top: 4rem;">
+      <div>© 2026 Achintya Rai. Based in India.</div>
+    </footer>
+  </div>
+  
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card, .section-header, .hero, .nav-socials').forEach(el => {
+      el.classList.add('fade-up');
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
