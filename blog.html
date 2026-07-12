@@ -42,9 +42,29 @@
 
       <!-- Blog Posts Grid -->
       <section class="grid-2" style="margin-bottom: 4rem;">
-        
+
+        <!-- Post: TransitOps & Atomic State Machines -->
+        <div class="card fade-up" style="grid-column: 1 / -1;">
+          <div class="project-header">
+            <h3 class="project-title">Architecting Race-Safe Logistics: Lessons from Building TransitOps in an 8-Hour Hackathon</h3>
+            <div class="project-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            </div>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem; font-weight: 500;">
+            July 13, 2026
+          </div>
+          <div style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;">
+            <p style="margin-bottom: 0.75rem;">During the Odoo Hackathon 2026, our team set out to engineer an enterprise-grade logistics and transport operations platform in just 8 hours. While many hackathon projects cut corners on data integrity, we decided to tackle one of the most notorious problems in logistics engineering: <strong>race conditions in vehicle and driver dispatching</strong>.</p>
+            <p style="margin-bottom: 0.75rem;">In real-world transport operations, concurrent requests can easily lead to double-booking—assigning a vehicle that is already en route or scheduling a driver whose commercial license has expired. To solve this decisively, we architected <strong>TransitOps</strong> around a strict 3-tier foundation utilizing React (Vite), Express REST APIs, and PostgreSQL 18 managed via Prisma ORM.</p>
+            <p style="margin-bottom: 0.75rem;">Rather than relying on UI-level validation or eventually consistent cloud databases, we embedded our business rules directly inside ACID database transactions (`prisma.$transaction`). Every state change follows a strict lifecycle (`DRAFT → DISPATCHED → COMPLETED`), atomically updating vehicle status (`AVAILABLE ⇄ ON_TRIP`) and checking driver compliance constraints in a single serializable operation.</p>
+            <p style="margin-bottom: 0.75rem;">Equally important was designing a clean <strong>4-tier Role-Based Access Control (RBAC)</strong> matrix. Fleet Managers, Safety Compliance Officers, Drivers, and Financial Analysts each operate in tailored workspaces with domain-specific guardrails—ensuring drivers never see sensitive financial overheads while safety officers retain sole authority over driver license compliance.</p>
+            <p>Building high-integrity backend systems under extreme time pressure reaffirmed a core engineering truth: clean data modeling and transactional guarantees are not "nice-to-haves"—they are the bedrock of reliable software.</p>
+          </div>
+        </div>
+
         <!-- Post 1 -->
-        <div class="card" style="grid-column: 1 / -1;">
+        <div class="card fade-up" style="grid-column: 1 / -1; margin-top: 2rem;">
           <div class="project-header">
             <h3 class="project-title">Why I Built My Personal Portfolio Website</h3>
             <div class="project-icon">
