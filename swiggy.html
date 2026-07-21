@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Swiggy MERN Platform - Achintya Rai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#f8fafc',
+        primaryTextColor: '#0f172a',
+        primaryBorderColor: '#e2e8f0',
+        lineColor: '#FC8019',
+        secondaryColor: '#fff7ed',
+        tertiaryColor: '#ffffff'
+      }
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="nav-brand">Achintya<span>.</span></div>
+      <a href="index.html" class="social-pill" style="text-decoration: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 4px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to Home
+      </a>
+    </nav>
+    <section class="hero fade-up">
+      <div class="accent-bg" style="color: #FC8019; border-color: #FC8019; background: rgba(252, 128, 25, 0.1);">Project Case Study</div>
+      <h1>Swiggy MERN Platform</h1>
+      <p>An authentic, full-stack food delivery platform with zero-config in-memory database auto-seeding, live order tracking, and dynamic promo validation.</p>
+      <div style="display: flex; gap: 1rem; font-weight: 600; font-size: 0.875rem; margin-top: 1.5rem;">
+        <a href="https://raiyashu2004.github.io/swiggy-clone-mern/" target="_blank" style="color: #FC8019;">Live Demo &rarr;</a>
+        <a href="https://github.com/raiyashu2004/swiggy-clone-mern" target="_blank" style="color: var(--text-muted);">GitHub Repo</a>
+      </div>
+    </section>
+
+    <h2 class="section-header fade-up">How It Started</h2>
+    <div class="card fade-up">
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        Food delivery platforms are incredibly complex systems involving live tracking, cart state management across sessions, dynamic pricing, and promo validation. I wanted to build an authentic clone of Swiggy to challenge myself with these full-stack architectural problems.
+      </p>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-top: 1rem;">
+        The goal was to build a robust MERN stack application (MongoDB, Express, React, Node.js) that not only functions perfectly locally but can also cleverly fall back to static hosting (like GitHub pages) using a dual-mode client fallback engine.
+      </p>
+    </div>
+
+    <h2 class="section-header fade-up">Architecture & Flowchart</h2>
+    <div class="card fade-up" style="overflow-x: auto; text-align: center;">
+      <pre class="mermaid">
+        graph TD
+          User((User)) -->|Browses Menu & Cart| ReactFrontend[React 19 Vite App]
+          ReactFrontend -->|API Requests| ExpressBackend[Express Node.js API]
+          ExpressBackend -->|Validates Promo/Order| Controller[Business Logic Controller]
+          Controller -->|Reads/Writes Data| MongoDB[(MongoDB Database)]
+          ReactFrontend -.->|Fallback if API unreachable| StaticData[Static JSON Fallback Engine]
+          StaticData -.->|Simulates API| ReactFrontend
+      </pre>
+    </div>
+
+    <h2 class="section-header fade-up">Challenges Faced</h2>
+    <div class="card fade-up">
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">1. Dual-Mode Deployment</h3>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+        To make the project accessible without needing a live backend server running 24/7, I engineered a dual-mode system. The React frontend attempts to connect to the REST API. If the API is unreachable (e.g. when hosted statically on GitHub Pages), it gracefully falls back to an in-memory mock engine that simulates API responses, database seeding, and cart state, providing a seamless user experience.
+      </p>
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">2. Dynamic Cart & Promo Logic</h3>
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        Handling state for carts, taxes, and promotional codes required precise calculations. The backend uses Mongoose to model complex order schemas, while the frontend handles optimistic UI updates, ensuring that users see their totals update instantly before the backend confirms the final price.
+      </p>
+    </div>
+
+    <footer style="margin-top: 4rem;">
+      <div>© 2025 Achintya Rai. Based in India.</div>
+    </footer>
+  </div>
+  
+  <script>
+    // ── Scroll Animation Observer ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card, .section-header, .hero, .nav-socials').forEach(el => {
+      el.classList.add('fade-up');
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
