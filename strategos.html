@@ -59,12 +59,12 @@
       <pre class="mermaid">
         graph TD
           User((User)) -->|Uploads Data & Query| Frontend[React Frontend]
-          Frontend -->|API Request| Backend[FastAPI & Spring Boot Backend]
-          Backend --> LangChain[LangChain Agent]
-          LangChain -->|ReAct Loop Reasoning| LLM{Large Language Model}
+          Frontend -->|API Request| Backend[FastAPI & Express Node.js Backend]
+          Backend --> Session[MongoDB Session Engine]
+          Session -->|ReAct Loop Reasoning| LLM{Large Language Model}
           LLM -->|Code Generation| Sandbox[Secure Python Sandbox]
-          Sandbox -->|Execution Output & Charts| LangChain
-          LangChain -->|Final Answer & Assets| Backend
+          Sandbox -->|Execution Output & Charts| Session
+          Session -->|Final Answer & Assets| Backend
           Backend -->|Response| Frontend
           Frontend -->|Displays Insights| User
       </pre>
