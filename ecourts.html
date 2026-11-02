@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eCourts Medallion Pipeline - Case Study | Achintya Rai</title>
+  <meta name="description" content="Indian eCourts Medallion Data Pipeline — End-to-end Lakehouse Architecture with Apache Airflow, DuckDB, dbt, Great Expectations, and Metabase." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#f8fafc',
+        primaryTextColor: '#0f172a',
+        primaryBorderColor: '#e2e8f0',
+        lineColor: '#10b981',
+        secondaryColor: '#d1fae5',
+        tertiaryColor: '#ffffff'
+      }
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="nav-brand">Achintya<span>.</span></div>
+      <a href="index.html" class="social-pill" style="text-decoration: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 4px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to Home
+      </a>
+    </nav>
+
+    <section class="hero fade-up">
+      <div class="accent-bg">Project Case Study · Data Engineering & Analytics</div>
+      <h1>Indian eCourts Medallion Pipeline</h1>
+      <p>An enterprise-grade lakehouse data pipeline ingesting millions of Indian judicial records with Bronze/Silver/Gold Medallion architecture, automated dbt dimensional modeling, and containerized Airflow orchestration.</p>
+      <div style="display: flex; gap: 1rem; font-weight: 600; font-size: 0.875rem; margin-top: 1.5rem; flex-wrap: wrap;">
+        <a href="https://github.com/raiyashu2004/indian-ecourts-medallion-pipeline" target="_blank" style="color: var(--accent);">GitHub Repository &rarr;</a>
+        <a href="index.html#works" style="color: var(--text-muted);">Explore in Doors</a>
+      </div>
+    </section>
+
+    <h2 class="section-header fade-up">How It Started & The Challenge</h2>
+    <div class="card fade-up">
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        The Indian judiciary processes hundreds of millions of case records across thousands of District and Subordinate Courts. However, judicial open data across portals like the National Judicial Data Grid (NJDG) is heavily fragmented, inconsistent in nomenclature, and lacks structured historical tracking for case lifecycle transitions (e.g. from Filing to Hearing to Disposal).
+      </p>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-top: 1rem;">
+        To solve this, I designed and built an automated <strong>Medallion Data Lakehouse Pipeline</strong>. Powered by <strong>Apache Airflow</strong>, <strong>DuckDB</strong>, <strong>dbt</strong>, <strong>Great Expectations</strong>, and <strong>Metabase</strong> in a fully containerized Docker ecosystem, the pipeline ingests CNR-indexed case records, asserts strict schema validity, tracks state changes with SCD Type 2 modeling, and materializes high-velocity analytics marts.
+      </p>
+    </div>
+
+    <h2 class="section-header fade-up">Medallion Lakehouse Architecture</h2>
+    <div class="card fade-up" style="overflow-x: auto; text-align: center;">
+      <pre class="mermaid">
+        graph LR
+          Scraper[Python Ingestion Scrapers - CNR Query Engine] -->|Raw Records| Bronze[(🥉 Bronze Layer: Partitioned Parquet Lake)]
+          
+          Bronze -->|Schema & Null Checks| GE[Great Expectations Validation Gate]
+          GE -->|Validated Data| Silver[(🥈 Silver Layer: DuckDB Warehouse)]
+          
+          subgraph dbt Transformations
+            Silver --> Snapshots[dbt Snapshots - SCD Type 2 History Tracking]
+            Snapshots --> Dimensions[dbt Dimensional Models: dim_cases, dim_courts]
+            Dimensions --> Gold[(🥇 Gold Layer: Analytics Marts)]
+          end
+          
+          Gold --> Metabase[Metabase BI Dashboard - Case Pendency & Delay Analytics]
+          
+          subgraph Orchestration
+            Airflow[Apache Airflow DAG Scheduler & Monitor] -.-> Bronze
+            Airflow -.-> GE
+            Airflow -.-> Silver
+            Airflow -.-> Gold
+          end
+      </pre>
+    </div>
+
+    <h2 class="section-header fade-up">Key Technical Innovations & Engineering Highlights</h2>
+    <div class="card fade-up">
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">1. 3-Tier Medallion Data Engineering</h3>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+        The pipeline separates data ingestion into distinct evolutionary tiers: <strong>Bronze</strong> (immutable, append-only partitioned Parquet files storing raw scraped judicial payloads), <strong>Silver</strong> (cleaned, standardized tabular warehouse entities in DuckDB with court alias resolution), and <strong>Gold</strong> (aggregated dimensional star-schema data marts optimized for analytical query execution).
+      </p>
+
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">2. Slowly Changing Dimensions (SCD Type 2) & Data Quality Gates</h3>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+        Cases evolve across years. Rather than destructively overwriting status changes, the pipeline utilizes <strong>dbt snapshots</strong> implementing Slowly Changing Dimensions (SCD Type 2) with `valid_from` and `valid_to` timestamps. Before loading raw data downstream, a comprehensive <strong>Great Expectations</strong> test suite enforces non-null CNR numbers, valid case year ranges, and structural integrity.
+      </p>
+
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">3. Zero-Serverless High-Performance DuckDB Engine & Airflow DAGs</h3>
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        By leveraging <strong>DuckDB</strong> as the in-process columnar analytics engine alongside columnar <strong>Parquet</strong> storage, analytical aggregations across hundreds of thousands of judicial rows execute in sub-100ms speeds without incurring cloud warehouse overhead. The entire end-to-end lifecycle runs autonomously via scheduled Dockerized Apache Airflow DAGs feeding directly into live Metabase visualization boards.
+      </p>
+    </div>
+
+    <footer style="margin-top: 4rem;">
+      <div>© 2026 Achintya Rai. Based in India.</div>
+    </footer>
+  </div>
+  
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card, .section-header, .hero, .nav-socials').forEach(el => {
+      el.classList.add('fade-up');
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

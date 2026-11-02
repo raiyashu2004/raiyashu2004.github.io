@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DealFlow360 - Case Study | Achintya Rai</title>
+  <meta name="description" content="DealFlow360 — Intelligent, Self-Governing Sales Operations Platform built for Odoo Hackathon Finale 2026 with React 18, Express 5, and PostgreSQL." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#f8fafc',
+        primaryTextColor: '#0f172a',
+        primaryBorderColor: '#e2e8f0',
+        lineColor: '#6366f1',
+        secondaryColor: '#e0e7ff',
+        tertiaryColor: '#ffffff'
+      }
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="nav-brand">Achintya<span>.</span></div>
+      <a href="index.html" class="social-pill" style="text-decoration: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 4px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to Home
+      </a>
+    </nav>
+
+    <section class="hero fade-up">
+      <div class="accent-bg">Project Case Study · Odoo Hackathon Finale 2026</div>
+      <h1>DealFlow360</h1>
+      <p>An intelligent, self-governing sales operations platform engineered for complex quote-to-cash workflows, multi-depot inventory fulfillment splitting, cycle-anchored billing proration, and dual-surface RBAC.</p>
+      <div style="display: flex; gap: 1rem; font-weight: 600; font-size: 0.875rem; margin-top: 1.5rem; flex-wrap: wrap;">
+        <a href="https://github.com/rpbArpitKhandelwal/odoo_finale_project_2026" target="_blank" style="color: var(--accent);">GitHub Repository &rarr;</a>
+        <a href="index.html#works" style="color: var(--text-muted);">Explore in Doors</a>
+      </div>
+    </section>
+
+    <h2 class="section-header fade-up">How It Started & The Problem</h2>
+    <div class="card fade-up">
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        Enterprise B2B sales cycles regularly collapse at the transition between quoting, inventory reservation, and invoicing. Sales representatives often bypass discount limits, warehouses suffer stock contention across concurrent deals, and billing teams calculate proration credits manually across hybrid one-time and recurring subscriptions.
+      </p>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-top: 1rem;">
+        Engineered for the <strong>Odoo Hackathon Finale 2026</strong>, <strong>DealFlow360</strong> automates the entire quote-to-cash lifecycle into a self-governing, deterministic state machine. Built with a bespoke <strong>React 18 + Vite SPA</strong> (featuring custom SVG charts and zero external UI libraries), an <strong>Express 5</strong> backend, and a <strong>24-table PostgreSQL</strong> relational engine, the platform enforces hard ACID guardrails on pricing, discount tier escalations, warehouse splits, and commission settlement.
+      </p>
+    </div>
+
+    <h2 class="section-header fade-up">Architecture & Core Engines</h2>
+    <div class="card fade-up" style="overflow-x: auto; text-align: center;">
+      <pre class="mermaid">
+        graph TD
+          Staff((Staff & Sales Reps)) -->|Staff Session Cookie| SPA[React 18 SPA - Custom Odoo Design System]
+          Cust((Customers)) -->|Portal Magic Link Token| SPA
+          
+          SPA -->|REST Endpoints /api| API[Express 5 Server - Double RBAC Engine]
+          
+          subgraph Business Logic Engines
+            API --> Engine1[Pricing & Blended Risk Routing Engine]
+            API --> Engine2[Greedy Warehouse Stock Allocation & Backorder Splitter]
+            API --> Engine3[Cycle-Anchored Hybrid Billing & Proration]
+            API --> Engine4[Tiered Sales Commission Settlement Engine]
+          end
+          
+          Engine1 --> DB[(PostgreSQL 24-Table Schema - ACID State Machines)]
+          Engine2 --> DB
+          Engine3 --> DB
+          Engine4 --> DB
+      </pre>
+    </div>
+
+    <h2 class="section-header fade-up">Key Technical Innovations & Engineering Highlights</h2>
+    <div class="card fade-up">
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">1. Blended Risk & Hierarchical Escalation Routing</h3>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+        Rather than simple flat discount limits, DealFlow360 calculates cumulative blended margin risk across an entire quotation. Smaller overages spread across many lines compound into a risk index, preventing sales reps from "giving away an order" by keeping each line marginally beneath ceilings. Quotes exceeding thresholds automatically route up hierarchical approval chains (Sales Rep &rarr; Sales Manager &rarr; Finance Officer).
+      </p>
+
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">2. Greedy Multi-Warehouse Splitting with Stock Exclusivity</h3>
+      <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+        Inventory fulfillment operates strictly on uncommitted stock (`on hand − units allocated to confirmed orders`). The engine evaluates multi-depot inventory with a greedy optimization algorithm: reusing existing shipping origins first, then picking the depot with highest remaining volume, and falling back to the lowest freight rate depot for remainder backorders. Restock runs trigger automated consolidation alerts.
+      </p>
+
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main);">3. Dual-Surface Isolation & 102 End-to-End Automated Tests</h3>
+      <p style="color: var(--text-muted); line-height: 1.7;">
+        The system implements two strictly isolated authentication surfaces: `df_session` for internal staff and `df_portal` for customer quotation approvals, with cross-tenant isolation enforced at the database query level. The entire platform is backed by a 102-check end-to-end automated test suite over HTTP verifying every edge case, from cycle proration to automatic backorder restocking.
+      </p>
+    </div>
+
+    <footer style="margin-top: 4rem;">
+      <div>© 2026 Achintya Rai. Based in India.</div>
+    </footer>
+  </div>
+  
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card, .section-header, .hero, .nav-socials').forEach(el => {
+      el.classList.add('fade-up');
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
