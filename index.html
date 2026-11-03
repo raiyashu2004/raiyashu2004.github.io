@@ -2941,7 +2941,7 @@ html[data-mode="dark"] .totop {
     <div class="hero__stage">
       <div class="fig" id="fig">
         <div class="fig__img-wrap">
-          <img id="figBase" src="achintya-portrait.png" alt="Portrait of Achintya Rai" onerror="this.src='achintya.jpg'">
+          <img id="figBase" src="achintya-portrait.png" alt="Portrait of Achintya Rai" fetchpriority="high" decoding="async" onerror="this.src='achintya.jpg'">
         </div>
       </div>
     </div>
@@ -3327,11 +3327,6 @@ html[data-mode="dark"] .totop {
   </div>
 </div>
 
-<!-- Floating Scroll-To-Top Button -->
-<button class="totop" id="toTop" aria-label="Back to top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-  <svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
-</button>
-
 <!-- =====================================================================
    INTERACTIVITY LOGIC
    ===================================================================== -->
@@ -3363,11 +3358,29 @@ const updateClock = () => {
 updateClock();
 setInterval(updateClock, 20000);
 
-// Sticky Header blur on scroll
-addEventListener('scroll', () => {
-  $("#header").classList.toggle('stuck', window.scrollY > 20);
-  $("#toTop").classList.toggle('show', window.scrollY > 600);
+// Cached Sticky Header & Floating Back To Top Button on scroll (RAF throttled)
+const headerEl = $("#header");
+const totopBtn = $("#totopBtn");
+let globalScrollRaf = 0;
+function onWindowScroll() {
+  const y = window.scrollY;
+  if (headerEl) headerEl.classList.toggle('stuck', y > 20);
+  if (totopBtn) {
+    totopBtn.classList.toggle('show', y > 350);
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    totopBtn.style.setProperty('--p', max > 0 ? Math.min(1, y / max).toFixed(4) : 0);
+  }
+  globalScrollRaf = 0;
+}
+window.addEventListener('scroll', () => {
+  if (!globalScrollRaf) globalScrollRaf = requestAnimationFrame(onWindowScroll);
 }, { passive: true });
+onWindowScroll();
+if (totopBtn) {
+  totopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
 
 // Nav Dropdown & Mobile Menu interactions
 const navWorkDrop = $("#navWorkDrop");
@@ -3638,7 +3651,30 @@ try {
     return { x: e.clientX - r.left, y: e.clientY - r.top };
   };
 
+  let lastT = performance.now();
+  let rafId = 0;
+  let isRunning = false;
+  let restFrames = 0;
+
+  function wakeLoop() {
+    if (isRunning) return;
+    if (document.hidden || window.scrollY > 450) return;
+    isRunning = true;
+    restFrames = 0;
+    lastT = performance.now();
+    rafId = requestAnimationFrame(loop);
+  }
+
+  function stopLoop() {
+    isRunning = false;
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = 0;
+    }
+  }
+
   function startDrag(e, idx) {
+    wakeLoop();
     grab = idx;
     const p = local(e), g = pts[idx];
     grabOff = { x: p.x - g.x, y: p.y - g.y };
@@ -3677,6 +3713,7 @@ try {
       extV = EXT_MAX * 44;
       pts[N].px = pts[N].x + 1.5;
     }
+    wakeLoop();
   }
 
   hit.addEventListener('pointerdown', e => {
@@ -3684,27 +3721,64 @@ try {
     try { hit.setPointerCapture(e.pointerId); } catch (_) {}
     startDrag(e, N);
   });
+  hit.addEventListener('pointerenter', wakeLoop);
   hit.addEventListener('keydown', e => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
+      wakeLoop();
       extV = EXT_MAX * 44;
       pts[N].px = pts[N].x + 1.5;
     }
   });
 
   layout();
-  addEventListener('resize', layout);
+  addEventListener('resize', () => {
+    layout();
+    wakeLoop();
+  });
 
-  let lastT = performance.now();
+  window.addEventListener('scroll', () => {
+    if (window.scrollY <= 450) wakeLoop();
+    else stopLoop();
+  }, { passive: true });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopLoop();
+    else if (window.scrollY <= 450) wakeLoop();
+  });
+
   function loop(now) {
+    if (!isRunning) return;
     const dt = Math.min((now - lastT) / 1000, 0.033);
     lastT = now;
     updateDrag();
     step(dt);
     draw();
-    requestAnimationFrame(loop);
+
+    // Check if the cord has come to complete rest
+    if (grab < 0 && Math.abs(ext) < 0.08 && Math.abs(extV) < 0.08) {
+      let maxSpeed = 0;
+      for (let i = 1; i <= N; i++) {
+        const p = pts[i];
+        maxSpeed = Math.max(maxSpeed, Math.abs(p.x - p.px), Math.abs(p.y - p.py));
+      }
+      if (maxSpeed < 0.03) {
+        restFrames++;
+        if (restFrames > 35) { // Settle smoothly into rest
+          stopLoop();
+          return;
+        }
+      } else {
+        restFrames = 0;
+      }
+    } else {
+      restFrames = 0;
+    }
+
+    rafId = requestAnimationFrame(loop);
   }
-  requestAnimationFrame(loop);
+
+  wakeLoop();
 })();
 
 /* =====================================================================
@@ -4059,8 +4133,16 @@ function hideDoor() {
   dinfo.classList.remove("on");
 }
 
+let badgeRaf = 0;
+let lastBadgeX = 0, lastBadgeY = 0;
+function updateBadgePosition() {
+  badge.style.transform = `translate3d(${lastBadgeX}px, ${lastBadgeY}px, 0) translate(-50%, -50%)`;
+  badgeRaf = 0;
+}
 function placeBadge(e) {
-  badge.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+  lastBadgeX = e.clientX;
+  lastBadgeY = e.clientY;
+  if (!badgeRaf) badgeRaf = requestAnimationFrame(updateBadgePosition);
 }
 function setBadge(on) {
   overBadge = on;
@@ -4099,6 +4181,7 @@ function scrollToCard(index) {
 
 /* Dynamic 3D depth and scale as cards stack on top of each other during scroll (Rishi Thakor pattern) */
 let stackTicking = false;
+let cachedStickyTop = -1;
 function updateCardStackPhysics() {
   stackTicking = false;
   const cards = [...stackDeck.querySelectorAll(".stack-card")];
@@ -4106,20 +4189,34 @@ function updateCardStackPhysics() {
   const scrollTop = workView.scrollTop;
   const pills = [...deckPills.querySelectorAll(".deck-pill")];
   
+  if (cachedStickyTop < 0 && cards[0]) {
+    cachedStickyTop = parseFloat(getComputedStyle(cards[0]).top) || 72;
+  }
+
+  // Phase 1: Batch all layout reads (prevents layout thrashing)
+  const metrics = cards.map(c => {
+    const r = c.getBoundingClientRect();
+    return {
+      top: r.top,
+      height: r.height || 1,
+      offsetTop: c.offsetTop
+    };
+  });
+
   let activeIndex = 0;
-  cards.forEach((c, idx) => {
-    const cardTop = c.offsetTop;
-    if (scrollTop >= cardTop - 140) {
+  for (let idx = 0; idx < metrics.length; idx++) {
+    if (scrollTop >= metrics[idx].offsetTop - 140) {
       activeIndex = idx;
     }
-    
-    // Scale down gently as subsequent card stacks over this one
-    const next = cards[idx + 1];
+  }
+
+  // Phase 2: Batch all style writes
+  cards.forEach((c, idx) => {
     let p = 0;
-    if (next) {
-      const top = parseFloat(getComputedStyle(c).top) || 0;
-      const h = c.offsetHeight || 1;
-      p = Math.min(1, Math.max(0, (top + h - next.getBoundingClientRect().top) / h));
+    const nextMetric = metrics[idx + 1];
+    if (nextMetric) {
+      const curr = metrics[idx];
+      p = Math.min(1, Math.max(0, (cachedStickyTop + curr.height - nextMetric.top) / curr.height));
     }
     c.style.transform = p ? `scale(${(1 - p * 0.05).toFixed(4)})` : '';
     c.style.filter = p ? `brightness(${(1 - p * 0.12).toFixed(4)})` : '';
@@ -4144,6 +4241,7 @@ workView.addEventListener("scroll", () => {
 
 function renderStackedCards(i) {
   currentDoorIndex = i;
+  cachedStickyTop = -1;
   const d = DOORS[i];
 
   $("#wCategoryTag").textContent = d.name;
@@ -4194,7 +4292,7 @@ function renderStackedCards(i) {
             <span class="mockup__url">${p.u.replace(/^https?:\/\//, '')}</span>
           </div>
           <div class="mockup__screen">
-            ${p.img ? `<img class="mockup__3d-art" src="${p.img}" alt="${p.t} 3D Visual" loading="lazy">` : ''}
+            ${p.img ? `<img class="mockup__3d-art" src="${p.img}" alt="${p.t} 3D Visual" loading="lazy" decoding="async">` : ''}
             <div class="mockup__art-overlay">
               <span class="art-tag">${p.kind}</span>
               <span class="art-title">${p.t}</span>
@@ -4405,21 +4503,7 @@ addEventListener("keydown", e => {
   }
 });
 
-/* Floating Back To Top Button */
-const tt = document.querySelector("#totopBtn");
-if (tt) {
-  const upd = () => {
-    const y = window.scrollY;
-    tt.classList.toggle("show", y > 350);
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    tt.style.setProperty("--p", max > 0 ? Math.min(1, y / max).toFixed(4) : 0);
-  };
-  window.addEventListener("scroll", upd, { passive: true });
-  upd();
-  tt.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-}
+
 
 /* =====================================================================
    MY STORY TIMELINE DATA
