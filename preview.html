@@ -621,9 +621,15 @@ img { display: block; max-width: 100%; }
   overflow: hidden;
   border-radius: 0 0 var(--radius-card) var(--radius-card);
   background: radial-gradient(120% 90% at 62% 30%, var(--hero-from) 0%, var(--hero-mid) 48%, var(--hero-to) 100%);
+  --fig-h: 22rem;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
+}
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .hero {
+    --fig-h: 32rem;
+  }
 }
 html[data-mode="dark"] .hero {
   background: radial-gradient(120% 90% at 62% 30%, #2A2525 0%, #1F1C1C 48%, #141212 100%);
@@ -639,14 +645,14 @@ html[data-mode="dark"] .hero {
 .hero__stage {
   position: absolute;
   inset: 0;
-  z-index: 15;
+  z-index: 2;
   pointer-events: none;
 }
 .fig {
   position: absolute;
   bottom: var(--bar-h);
   left: 50%;
-  height: 38rem;
+  height: var(--fig-h);
   max-height: calc(100svh - var(--bar-h) - 1rem);
   width: auto;
   max-width: 90vw;
@@ -728,13 +734,13 @@ html[data-mode="dark"] .hero {
 
 .hero__content {
   position: relative;
-  z-index: 10;
+  z-index: 20;
   pointer-events: none; /* Allows mouse interactions to pass directly through empty hero stage to the portrait */
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding-top: 8rem;
-  padding-bottom: calc(30rem + 1.25rem);
+  gap: 1.75rem;
+  padding-top: 6rem;
+  padding-bottom: calc(var(--fig-h) + 1.5rem);
   flex: 1;
 }
 @media (min-width: 1024px) {
@@ -774,9 +780,9 @@ html[data-mode="dark"] .hero {
 }
 
 .h1 {
-  font-size: 2.75rem;
+  font-size: clamp(2.15rem, 6.8vw, 2.75rem);
   font-weight: 600;
-  line-height: 1;
+  line-height: 1.05;
   letter-spacing: -0.025em;
 }
 @media (min-width: 640px) { .h1 { font-size: 3.75rem; } }
@@ -1638,8 +1644,9 @@ html[data-mode="dark"] .totop {
 }
 @media (max-width: 480px) {
   .doors__row {
-    grid-template-columns: 1fr;
-    max-width: 16rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+    max-width: 100%;
   }
 }
 
@@ -2775,12 +2782,6 @@ html[data-mode="dark"] .totop {
 }
 
 @media (max-width: 760px) {
-  .hero__stage { height: 24rem; }
-  .fig { height: 24rem; }
-  .doors-grid { grid-template-columns: repeat(2, 1fr); }
-  .peek-card, .door-enter { display: none !important; }
-  .work-card { grid-template-columns: 1fr; padding: 1.75rem; border-radius: 28px; }
-  .work-card:nth-child(even) .mon { order: 0; }
   .story__stage { grid-template-columns: 1fr; }
   .story__clock { position: static; margin-bottom: 2rem; }
 }
